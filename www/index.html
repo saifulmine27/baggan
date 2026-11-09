@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="bn" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RoofSprout</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F8F1;--card:#fff;--ink:#14301F;--mut:#4D6655;--line:#DCE8D8;--acc:#2E7D32;--onacc:#fff;--soft:#E6F0E2;--wat:#0369A1;--warn:#B45309;--bad:#C81E1E;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C1710;--card:#14241A;--ink:#E8F5EA;--mut:#9DB8A3;--line:#213A28;--acc:#7DD87F;--onacc:#08200C;--soft:#1B3322;--wat:#7DD3FC;--warn:#FBBF24;--bad:#F87171;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0C1710;--card:#14241A;--ink:#E8F5EA;--mut:#9DB8A3;--line:#213A28;--acc:#7DD87F;--onacc:#08200C;--soft:#1B3322;--wat:#7DD3FC;--warn:#FBBF24;--bad:#F87171;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Siliguri",sans-serif;font-size:15px;line-height:1.5}
+button,input,textarea{font:inherit;color:inherit}
+.ic{flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wrap{max-width:680px;margin:0 auto;padding:12px 14px 110px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.logo{width:42px;height:42px;border-radius:14px;background:var(--acc);color:var(--onacc);display:grid;place-items:center}
+header h1{margin:0;font-size:20px;flex:1;line-height:1.2}header small{display:block;font-size:12px;color:var(--mut);font-weight:400}
+.ib{width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer}
+.btn{border:0;border-radius:14px;min-height:46px;padding:0 16px;font-weight:600;cursor:pointer;background:var(--soft);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.p{background:var(--acc);color:var(--onacc)}.btn.s{min-height:40px;padding:0 12px;font-size:14px}.btn.w{background:color-mix(in srgb,var(--wat) 14%,var(--card));color:var(--wat)}.wide{width:100%}.btn:disabled{opacity:.6;cursor:default}
+nav{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:460px;margin:0 auto;display:flex;gap:4px;padding:6px;background:var(--card);border:1px solid var(--line);border-radius:30px;z-index:5;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+nav button{flex:1;min-height:46px;border:0;border-radius:24px;background:none;color:var(--mut);font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;position:relative;font-size:14px}
+nav button.on{background:var(--acc);color:var(--onacc)}
+.bd{position:absolute;top:2px;right:6px;min-width:20px;height:20px;border-radius:10px;background:var(--bad);color:#fff;font-size:12px;display:grid;place-items:center;padding:0 5px}
+@media(min-width:760px){nav{position:static;max-width:none;margin:0 0 16px;box-shadow:none}.wrap{padding-bottom:40px}}
+.view{animation:up .28s ease}@keyframes up{from{opacity:0;transform:translateY(10px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px}
+h2{font-size:16px;margin:0 0 10px}.m{color:var(--mut);font-size:13px}.t{font-weight:600}
+.row{display:flex;align-items:center;gap:12px}.g{flex:1;min-width:0}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:22px;min-height:40px;padding:0 14px;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.season{background:var(--acc);color:var(--onacc);border-radius:22px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden}
+.season:after{content:"";position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50%;background:var(--onacc);opacity:.08}
+.season>*{position:relative;z-index:1}.season .sn{font-size:26px;font-weight:700;line-height:1.2}
+.av{width:42px;height:42px;border-radius:14px;flex:none;display:grid;place-items:center;background:color-mix(in srgb,var(--acc) 16%,transparent);color:var(--acc)}
+.av.w{background:color-mix(in srgb,var(--wat) 16%,transparent);color:var(--wat)}
+.items{display:flex;flex-direction:column;gap:14px}
+.x{border:0;background:none;color:var(--mut);cursor:pointer;min-width:44px;min-height:44px;display:grid;place-items:center}
+.st{font-size:13px;font-weight:600}.st.due{color:var(--wat)}.st.late{color:var(--bad)}
+.alert{background:color-mix(in srgb,var(--wat) 12%,var(--card));border:1.5px solid var(--wat);border-radius:18px;padding:14px;margin-bottom:12px}
+.empty{text-align:center;padding:24px 8px;display:flex;flex-direction:column;gap:10px;align-items:center;color:var(--mut)}.empty b{color:var(--ink);font-size:17px}
+textarea,input.tx{width:100%;border-radius:12px;border:1px solid var(--line);background:var(--bg);padding:10px 12px;min-height:48px}
+.pv{width:100%;max-height:260px;object-fit:cover;border-radius:14px;margin:10px 0}
+.out{white-space:pre-wrap;line-height:1.7}
+details{border-top:1px solid var(--line);padding:10px 0}details:first-of-type{border:0}summary{font-weight:600;cursor:pointer;min-height:32px}details p{margin:6px 0 0;color:var(--mut)}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(100px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:22px;z-index:30;opacity:0;pointer-events:none;transition:opacity .2s;font-weight:600}#toast.on{opacity:1}
+
+.lg{flex:none;border-radius:15px;box-shadow:0 6px 16px color-mix(in srgb,var(--acc) 35%,transparent)}
+header h1{font-size:22px;letter-spacing:.2px}
+button:active,label.btn:active{transform:scale(.97)}
+.card{border-radius:24px;padding:16px;box-shadow:0 1px 2px rgba(20,48,31,.04),0 10px 28px rgba(20,48,31,.05)}
+nav{background:color-mix(in srgb,var(--card) 80%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);max-width:400px}
+nav button{flex:1;transition:flex .25s}nav button.on{flex:2.2}nav button:not(.on) .lb{display:none}
+.season{border-radius:30px;padding:20px;min-height:170px}.season:after{display:none}
+.season .deco{position:absolute;right:-8px;bottom:-8px;z-index:0}.season .m2{font-size:13px;font-weight:600}.season .sd{max-width:78%;margin-top:6px;font-size:14px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.pl{display:inline-flex;gap:6px;align-items:center;background:color-mix(in srgb,var(--onacc) 16%,transparent);border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600}
+.mg{position:relative;display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;margin:0 -14px 8px;padding:2px 14px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 14px),transparent);mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 14px),transparent)}.mg::-webkit-scrollbar{display:none}.mg .chip{flex:none;scroll-snap-align:center;min-height:42px;padding:0 18px;font-size:14px}
+.lgb{border:0;background:none;padding:0;cursor:pointer;border-radius:15px;display:block;line-height:0}#homet{cursor:pointer}
+.sh{font-size:17px;font-weight:700;margin:16px 4px 10px}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px;margin-bottom:12px}
+.pg>*{animation:up .4s both}.pg>*:nth-child(2){animation-delay:.04s}.pg>*:nth-child(3){animation-delay:.08s}.pg>*:nth-child(4){animation-delay:.12s}.pg>*:nth-child(5){animation-delay:.16s}.pg>*:nth-child(6){animation-delay:.2s}
+.pc{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:6px;box-shadow:0 1px 2px rgba(20,48,31,.04)}
+.pc .tp{font-size:13px;color:var(--mut);flex:1}.pc .m{display:flex;align-items:center;gap:4px}
+.added{display:flex;gap:6px;align-items:center;color:var(--acc);font-weight:600;font-size:14px;min-height:40px}
+.av.k{--k:var(--acc);background:color-mix(in srgb,var(--k) 16%,transparent);color:var(--k);width:46px;height:46px;border-radius:16px}
+.k-f{--k:#F97316}.k-r{--k:#D97706}.k-v{--k:#8B5CF6}
+.ghero{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:28px;padding:18px;margin-bottom:12px}
+.ghero.due{background:color-mix(in srgb,var(--wat) 10%,var(--card));border-color:var(--wat)}
+.ring2{position:relative;width:84px;height:84px;flex:none}.ring2 svg{transform:rotate(-90deg)}.ring2 b{position:absolute;inset:0;display:grid;place-items:center;font-size:18px}
+.gc{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px;margin-bottom:10px;animation:up .35s both}
+.wb{height:8px;border-radius:4px;background:var(--soft);margin-top:10px;overflow:hidden}.wb i{display:block;height:8px;border-radius:4px;background:var(--wat);transition:width .6s}.wb i.late{background:var(--bad)}
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;border:2px dashed var(--line);border-radius:24px;min-height:150px;padding:16px;cursor:pointer;background:var(--bg);color:var(--mut)}
+.drop b{color:var(--ink);font-size:16px}.drop .ci{width:56px;height:56px;border-radius:20px;background:var(--acc);color:var(--onacc);display:grid;place-items:center}
+.drop.has{padding:0;overflow:hidden;position:relative;border-style:solid}.drop.has img{width:100%;max-height:280px;object-fit:cover;display:block}
+.drop.has span{position:absolute;right:10px;bottom:10px;background:var(--card);color:var(--ink);padding:4px 12px;border-radius:16px;font-weight:600;font-size:13px}
+.ot{font-size:18px;font-weight:700;margin-bottom:8px}.ob{white-space:pre-wrap;line-height:1.75}
+
+.dh{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.vf{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;border-radius:26px;overflow:hidden;min-height:210px;background:var(--soft);cursor:pointer;color:var(--mut);padding:16px}
+.vf b{color:var(--ink);font-size:16px}.vf .ci{width:58px;height:58px;border-radius:20px;background:var(--acc);color:var(--onacc);display:grid;place-items:center}
+.vf.has{padding:0;display:block}.vf.has img{width:100%;max-height:320px;min-height:210px;object-fit:cover;display:block}
+.vf .chg{position:absolute;right:12px;bottom:12px;background:var(--card);color:var(--ink);padding:4px 12px;border-radius:16px;font-weight:600;font-size:13px}
+.vf i{position:absolute;width:28px;height:28px;border:3px solid var(--acc);z-index:2}
+.vf .c1{top:14px;left:14px;border-right:0;border-bottom:0;border-radius:12px 0 0 0}.vf .c2{top:14px;right:14px;border-left:0;border-bottom:0;border-radius:0 12px 0 0}
+.vf .c3{bottom:14px;left:14px;border-right:0;border-top:0;border-radius:0 0 0 12px}.vf .c4{bottom:14px;right:14px;border-left:0;border-top:0;border-radius:0 0 12px 0}
+.vf.scan:after{content:"";position:absolute;left:0;right:0;height:3px;background:var(--acc);box-shadow:0 0 18px 4px var(--acc);z-index:3;animation:sc 1.5s ease-in-out infinite alternate}
+@keyframes sc{from{top:6%}to{top:94%}}
+.lb2{font-weight:700;margin:16px 0 8px}.sy{display:flex;flex-wrap:wrap;gap:8px}
+.steps{display:flex;flex-direction:column;gap:12px}.stp{display:flex;gap:12px;align-items:center;color:var(--mut)}
+.stp .d{width:28px;height:28px;border-radius:14px;border:2px solid var(--line);display:grid;place-items:center;font-size:13px;flex:none}
+.stp.on{color:var(--ink);font-weight:600}.stp.on .d{border-color:var(--acc);color:var(--acc)}.stp.done .d{background:var(--acc);border-color:var(--acc);color:var(--onacc)}
+.rc{animation:up .4s both}.th{width:56px;height:56px;border-radius:16px;object-fit:cover;flex:none}
+.cf{position:relative;flex:none}.cf svg{transform:rotate(-90deg)}.cf b{position:absolute;inset:0;display:grid;place-items:center}
+.sev{display:inline-flex;align-items:center;padding:3px 12px;border-radius:14px;font-size:13px;font-weight:700}
+.sev.low{background:color-mix(in srgb,var(--acc) 16%,transparent);color:var(--acc)}.sev.medium{background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn)}.sev.high{background:color-mix(in srgb,var(--bad) 16%,transparent);color:var(--bad)}
+.steps2{display:flex;flex-direction:column;gap:8px}.ck{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:16px;background:var(--bg);cursor:pointer}
+.ck input{width:20px;height:20px;accent-color:var(--acc);margin-top:3px;flex:none}.ck.done span{text-decoration:line-through;color:var(--mut)}
+.pv2{margin:0;padding-left:20px}.pv2 li{margin-bottom:4px}
+.ex{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px;border-radius:16px;background:color-mix(in srgb,var(--warn) 12%,var(--card));color:var(--ink)}.ex .ic{color:var(--warn);margin-top:3px}
+.hi{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;padding:0;cursor:pointer;text-align:left}
+
+.em{font-size:24px;line-height:1}.av.big2{width:76px;height:76px;border-radius:24px}.big2 .em{font-size:44px}.big2 svg{width:46px;height:46px}
+.pc{cursor:pointer}.pc:focus-visible{outline:2px solid var(--acc)}.dt{font-size:13px;color:var(--acc);font-weight:600}
+.kv{display:flex;gap:8px;flex-wrap:wrap}.kvi{background:var(--bg);border-radius:14px;padding:8px 12px;flex:1;min-width:110px}.kvi b{display:block;font-size:14px}
+.tl{position:relative;padding-left:26px;margin-top:4px}.tl:before{content:"";position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.ti{position:relative;margin-bottom:14px}.ti:before{content:"";position:absolute;left:-24px;top:5px;width:12px;height:12px;border-radius:6px;background:var(--acc);border:2px solid var(--card)}
+.ti.w:before{background:var(--wat)}.ti.p:before{background:var(--warn)}.ti.h:before{background:#F97316}.ti b{display:block}
+.cm,.fm{display:inline-block;border-radius:12px;padding:2px 10px;font-size:13px;margin:3px 4px 0 0;border:1px solid var(--line)}
+.cm{background:color-mix(in srgb,var(--bad) 10%,var(--card));border-color:color-mix(in srgb,var(--bad) 35%,var(--line))}.fm{background:color-mix(in srgb,var(--acc) 12%,var(--card))}
+.prow{padding:12px 0;border-top:1px solid var(--line)}.prow:first-of-type{border:0;padding-top:0}
+
+.seg{display:flex;gap:4px;padding:4px;background:var(--soft);border-radius:18px;margin-bottom:12px}
+.seg button{flex:1;min-height:44px;border:0;border-radius:14px;background:none;color:var(--mut);font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chat{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.bub{max-width:88%;padding:10px 14px;border-radius:18px;white-space:pre-wrap;line-height:1.65;word-break:break-word;animation:up .25s both}
+.bub.u{align-self:flex-end;background:var(--acc);color:var(--onacc);border-bottom-right-radius:6px}
+.bub.a{align-self:flex-start;background:var(--soft);border-bottom-left-radius:6px}
+.askbar{position:sticky;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:4;display:flex;gap:8px;padding:8px;background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.askbar .tx{flex:1}@media(min-width:760px){.askbar{bottom:12px}}
+.av.k svg{width:36px;height:36px}.big2 svg{width:58px;height:58px}
+
+.fab2{position:fixed;right:18px;bottom:calc(92px + env(safe-area-inset-bottom,0px));width:60px;height:60px;border-radius:22px;border:0;background:var(--acc);color:var(--onacc);display:grid;place-items:center;cursor:pointer;z-index:6;box-shadow:0 10px 26px color-mix(in srgb,var(--acc) 45%,transparent)}
+@media(min-width:760px){.fab2{bottom:28px}}
+#sheet{position:fixed;inset:0;z-index:20;display:none}#sheet.on{display:block}
+.sov{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.spn{position:absolute;left:0;right:0;bottom:0;max-width:560px;margin:0 auto;background:var(--card);border-radius:28px 28px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;animation:up .25s;max-height:92vh;overflow:auto}
+@media(min-width:760px){.spn{bottom:auto;top:10vh;border-radius:28px}}
+
+.lgi{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:14px;padding:10px 12px}
+.wb i.ac{background:var(--acc)}.stepper{display:flex;align-items:center;gap:12px}.stepper b{font-size:24px;min-width:44px;text-align:center}
+.gc{cursor:pointer}.gc:focus-visible{outline:2px solid var(--acc)}
+.lgf{background:var(--bg);border-radius:16px;padding:12px;margin:10px 0}
+.ph{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}.ph div{flex:none;text-align:center;font-size:12px;color:var(--mut)}.ph img{width:64px;height:64px;border-radius:14px;object-fit:cover;display:block;margin-bottom:2px}
+.sgi{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:16px;padding:12px;margin-top:8px}
+.ib{position:relative}.dotb{position:absolute;top:7px;right:7px;width:11px;height:11px;border-radius:6px;background:var(--bad);border:2px solid var(--card)}
+
+/* premium theme */
+:root{--bg:#F5F3EC;--card:#FFFFFF;--ink:#10231A;--mut:#5C6F63;--line:#E7E3D6;--acc:#1F6B45;--onacc:#fff;--soft:#EDEAE0;--gold:#C8963E;--wat:#0B6FA4;--warn:#B45309;--bad:#C0262D}
+:root[data-theme="dark"]{--bg:#08110C;--card:#102019;--ink:#EEF6EF;--mut:#9FB5A6;--line:#1B3226;--acc:#5FD8A0;--onacc:#04150C;--soft:#17291F;--gold:#E6B85C;--wat:#7DD3FC;--warn:#FBBF24;--bad:#F87171}
+body{background-image:radial-gradient(900px 420px at 88% -8%,color-mix(in srgb,var(--acc) 14%,transparent),transparent),radial-gradient(700px 360px at -10% 30%,color-mix(in srgb,var(--gold) 9%,transparent),transparent);background-repeat:no-repeat;background-attachment:fixed}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:8;margin:-12px -14px 14px;padding:12px 14px;background:color-mix(in srgb,var(--bg) 72%,transparent);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+header h1{font-size:21px;letter-spacing:.2px}header small{color:var(--gold);font-weight:600;letter-spacing:.3px}
+.lg{box-shadow:0 8px 20px -6px color-mix(in srgb,var(--acc) 60%,transparent),0 0 0 2px color-mix(in srgb,var(--gold) 55%,transparent)}
+.ib{background:color-mix(in srgb,var(--card) 80%,transparent);border-color:color-mix(in srgb,var(--line) 70%,transparent)}
+.card,.pc,.gc,.ghero{border:1px solid color-mix(in srgb,var(--line) 75%,transparent);border-radius:26px;box-shadow:0 1px 1px rgba(16,35,26,.03),0 14px 34px -14px rgba(16,35,26,.16)}
+:root[data-theme="dark"] .card,:root[data-theme="dark"] .pc,:root[data-theme="dark"] .gc,:root[data-theme="dark"] .ghero{box-shadow:0 14px 34px -14px rgba(0,0,0,.7)}
+.pc,.gc{transition:transform .2s ease,box-shadow .2s ease}.pc:hover,.gc:hover{transform:translateY(-3px)}
+h2{font-size:17px;letter-spacing:.1px}
+.sh{display:flex;align-items:center;font-size:18px}.sh:before{content:"";width:5px;height:20px;border-radius:3px;background:var(--gold);margin-right:10px}
+.season{background:linear-gradient(135deg,#1F6B45 0%,#0E3B27 100%);color:#fff;border-radius:32px;padding:22px;box-shadow:0 22px 40px -18px rgba(14,59,39,.7)}
+.season:before{content:"";position:absolute;left:-40px;bottom:-70px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(230,184,92,.38),transparent 70%)}
+.season .sn{font-size:30px;letter-spacing:.3px}.season .pl{background:rgba(255,255,255,.16);color:#fff}
+.season .deco path:first-child{fill:#fff}.season .deco path:last-child{stroke:#fff}
+.chip{border-color:transparent;background:var(--card);box-shadow:0 1px 2px rgba(16,35,26,.08)}
+.chip.on{background:var(--acc);color:var(--onacc);border-color:transparent;box-shadow:0 8px 18px -6px color-mix(in srgb,var(--acc) 60%,transparent)}
+.btn{border-radius:16px}.btn.p,.fab2{background:linear-gradient(135deg,var(--acc),color-mix(in srgb,var(--acc) 62%,#000));color:var(--onacc);box-shadow:0 10px 22px -10px color-mix(in srgb,var(--acc) 80%,transparent)}
+:root[data-theme="dark"] .btn.p,:root[data-theme="dark"] .fab2{background:linear-gradient(135deg,var(--acc),color-mix(in srgb,var(--acc) 70%,#0a6))}
+nav{border-color:color-mix(in srgb,var(--line) 60%,transparent);box-shadow:0 20px 44px -14px rgba(0,0,0,.32)}
+nav button.on{background:linear-gradient(135deg,var(--acc),color-mix(in srgb,var(--acc) 62%,#000));color:var(--onacc)}
+:root[data-theme="dark"] nav button.on{background:var(--acc)}
+.av.k{background:linear-gradient(145deg,color-mix(in srgb,var(--k) 24%,var(--card)),color-mix(in srgb,var(--k) 8%,var(--card)));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--k) 20%,transparent)}
+.av.big2{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--k) 22%,transparent),0 14px 26px -12px color-mix(in srgb,var(--k) 55%,transparent)}
+.view>*{animation:up .5s both}.view>*:nth-child(2){animation-delay:.05s}.view>*:nth-child(3){animation-delay:.1s}.view>*:nth-child(4){animation-delay:.15s}.view>*:nth-child(5){animation-delay:.2s}
+.ghero.due{border-color:var(--wat)}.ring2 b{font-weight:700}
+.kvi{background:color-mix(in srgb,var(--soft) 70%,var(--card));border-radius:16px}
+.vf{background:color-mix(in srgb,var(--soft) 80%,var(--card));border-radius:28px}
+.bub.u{background:linear-gradient(135deg,var(--acc),color-mix(in srgb,var(--acc) 62%,#000))}
+.askbar{border-radius:26px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+#toast{box-shadow:0 12px 28px -8px rgba(0,0,0,.45)}
+#splash{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;pointer-events:none;animation:spl .7s 1s ease forwards}
+#splash .lg{width:84px;height:84px;animation:pop .6s cubic-bezier(.2,1.2,.3,1) both}#splash b{font-size:26px;letter-spacing:.4px}#splash span{color:var(--gold);font-weight:600}
+@keyframes spl{to{opacity:0;visibility:hidden}}@keyframes pop{from{transform:scale(.6);opacity:0}}
+@media(prefers-reduced-motion:reduce){#splash{display:none}}
+/* less gold */
+body{background-image:radial-gradient(900px 420px at 88% -8%,color-mix(in srgb,var(--acc) 14%,transparent),transparent),radial-gradient(700px 360px at -10% 30%,color-mix(in srgb,var(--gold) 3%,transparent),transparent)}
+header small{color:var(--mut);font-weight:500;letter-spacing:0}
+.lg{box-shadow:0 8px 20px -6px color-mix(in srgb,var(--acc) 60%,transparent)}
+.sh:before{background:var(--acc)}
+.season:before{background:radial-gradient(circle,rgba(255,255,255,.14),transparent 70%)}
+#splash span{color:var(--mut);font-weight:500}
+:focus-visible{outline-color:var(--acc)}
+/* compact home */
+.pg{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.pc{padding:10px;border-radius:20px;gap:3px}
+.pc .av.k{width:38px;height:38px;border-radius:13px}.pc .av.k svg{width:28px;height:28px}
+.pc .t{font-size:14px}.pc .m{font-size:11.5px;line-height:1.35}
+.pc .tp{font-size:12px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pc .dt{font-size:12px}.pc .btn.s{min-height:34px;font-size:13px;padding:0 10px}.pc .added{min-height:32px;font-size:13px}
+.season{padding:16px;min-height:0;border-radius:26px}.season .sn{font-size:24px}.season .sd{font-size:13px;max-width:82%;margin-top:2px}.season .deco{width:110px;height:110px}.pills{margin-top:8px}.pills .pl{font-size:12px;padding:2px 10px}
+.sh{font-size:16px;margin:12px 4px 8px}.sh:before{height:16px}
+.mg .chip{min-height:36px;padding:0 14px;font-size:13px}
+.dye{background:var(--bg);border-radius:16px;padding:12px;margin-top:8px;position:relative}.dye .x{position:absolute;top:2px;right:2px}.dyi{width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-top:6px;display:block}
+.wrh{font-size:19px;font-weight:700;line-height:1.4;margin:10px 0}.wri{display:flex;gap:10px;align-items:flex-start;margin-top:8px}.wri .ic{margin-top:3px;color:var(--acc)}
+.apw{position:relative;flex:none}.apw img{width:44px;height:44px;border-radius:12px;object-fit:cover;display:block}.apx{position:absolute;top:-8px;right:-8px;width:28px;height:28px;border-radius:14px;border:0;background:var(--ink);color:var(--bg);font-size:16px;line-height:1;cursor:pointer}.bimg{width:100%;max-width:200px;border-radius:12px;display:block;margin-bottom:6px}
+/* bigger top card */
+.season{padding:24px 22px;min-height:200px;border-radius:32px;display:flex;flex-direction:column;justify-content:center}
+.season .m2{font-size:14px}.season .sn{font-size:36px;line-height:1.2;margin-top:4px}.season .sd{font-size:15px;line-height:1.6;max-width:80%;margin-top:6px}
+.season .deco{width:170px;height:170px}.pills{margin-top:14px}.pills .pl{font-size:13px;padding:5px 12px}
+.rng{display:flex;align-items:center;gap:8px;font-size:15px;padding:8px 12px;background:var(--soft);border-radius:14px;margin:4px 0 8px;width:fit-content}
+details.rcard,details.rcard:first-of-type{border:1px solid var(--line);padding:12px 14px;border-radius:22px;margin-bottom:10px;background:var(--card)}
+.rcard summary{display:flex;align-items:center;gap:10px;cursor:pointer;list-style:none;min-height:44px}.rcard summary::-webkit-details-marker{display:none}
+.rcard .chev{transition:transform .2s;color:var(--mut);font-size:22px;line-height:1}.rcard[open] .chev{transform:rotate(90deg)}
+.rcard .cl{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:600}.rcard .bd2{margin-top:8px;border-top:1px solid var(--line);padding-top:10px}
+
+/* garden cards like reference */
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px;margin-bottom:12px}
+.gk{padding:14px;margin:0;display:flex;flex-direction:column;gap:8px;animation:up .4s both}.gk .av{width:44px;height:44px;border-radius:14px}.gk .av svg{width:30px;height:30px}
+.gp{font-size:12px;font-weight:700;padding:3px 10px;border-radius:14px;white-space:nowrap;margin-left:auto}
+.gp.r{background:color-mix(in srgb,var(--bad) 12%,var(--card));color:var(--bad)}.gp.a{background:color-mix(in srgb,#F59E0B 20%,var(--card));color:#92400E}.gp.g{background:color-mix(in srgb,#10B981 16%,var(--card));color:#047857}
+.gn{font-size:17px;font-weight:700;margin-top:4px;line-height:1.3}.gt{display:flex;flex-wrap:wrap;gap:6px}
+.tg{background:var(--soft);color:var(--mut);border-radius:8px;padding:2px 8px;font-size:12px;display:inline-flex;align-items:center;gap:4px}.tg .ic{color:#F59E0B}
+.gv{font-size:13px}.gv.r{color:var(--bad)}.gv.a{color:#B45309}.gv.g{color:#047857}
+.gb{height:8px;border-radius:4px;background:var(--soft);overflow:hidden}.gb i{display:block;height:8px;border-radius:4px}.gb i.r{background:var(--bad)}.gb i.a{background:#F59E0B}.gb i.g{background:#10B981}
+.gbt{display:flex;gap:8px;margin-top:6px;padding-top:12px;border-top:1px solid var(--line)}
+.gw{flex:1;border:0;border-radius:14px;min-height:44px;background:color-mix(in srgb,#2563EB 10%,var(--card));color:#1D4ED8;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer}
+.gi{width:44px;height:44px;border-radius:50%;border:0;background:var(--soft);color:var(--mut);font-weight:700;font-family:Georgia,serif;font-style:italic;font-size:18px;cursor:pointer;flex:none}
+:root[data-theme="dark"] .gp.a,:root[data-theme="dark"] .gv.a{color:#FBBF24}:root[data-theme="dark"] .gp.g,:root[data-theme="dark"] .gv.g{color:#6EE7B7}:root[data-theme="dark"] .gw{color:#93C5FD}
+
+.wdc{display:flex;align-items:center;gap:14px;padding:14px;position:relative;cursor:pointer}
+.wdt{width:64px;height:64px;border-radius:20px;flex:none;display:grid;place-items:center;background:color-mix(in srgb,var(--wc) 16%,var(--card));color:var(--wc)}
+.wdn{font-size:22px;font-weight:700;line-height:1.2}.wdp{font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px;background:color-mix(in srgb,var(--wc) 18%,var(--card));color:color-mix(in srgb,var(--wc) 55%,var(--ink));white-space:nowrap}
+.wdl{font-size:13px;color:var(--mut);margin-top:4px}
+.wdi{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.14);border-radius:18px;padding:10px 12px;margin-top:12px;cursor:pointer;color:#fff}.wdi .wit{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.2);display:grid;place-items:center;flex:none}.wip{font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px;background:rgba(255,255,255,.22);white-space:nowrap}.wil{font-size:12.5px;margin-top:3px;line-height:1.5}
+.season .wdi{position:absolute;top:12px;right:12px;margin:0;padding:6px 10px;border-radius:14px;gap:0;max-width:172px;display:block;z-index:2;background:rgba(255,255,255,.16)}
+.season .wdi .wit{width:auto;height:auto;background:none;border-radius:0;display:inline-grid}
+.season .wdi .wip{font-size:11px;padding:1px 8px}.season .wdi .wil{font-size:11px;margin-top:2px;line-height:1.4}
+.season .m2{max-width:calc(100% - 170px)}.wde{position:absolute;top:6px;right:6px;width:36px;height:36px;border:0;background:none;color:var(--mut);display:grid;place-items:center;border-radius:12px;cursor:pointer}
+.wdtip{font-size:12.5px;color:var(--mut);margin-top:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.c-sun{--wc:#F59E0B}.c-cloud{--wc:#64748B}.c-rain{--wc:#2563EB}.c-fog{--wc:#7C8AA0}.c-wind{--wc:#0D9488}
+:root[data-theme="dark"] .c-rain{--wc:#60A5FA}:root[data-theme="dark"] .c-cloud{--wc:#94A3B8}
+.rcard{border:1px solid var(--line);padding:12px 14px;border-radius:22px;margin-bottom:10px;background:var(--card)}
+.rh{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;padding:0;cursor:pointer;min-height:44px;color:inherit;font:inherit}
+.rcard.open .chev{transform:rotate(90deg)}.view.na>*{animation:none!important}
+/* flat pastel icon tiles */
+.av.k{background:color-mix(in srgb,var(--tc,var(--k)) 15%,var(--card));box-shadow:none;border-radius:14px}
+.av.big2{box-shadow:none;border-radius:22px}
+.pc .av.k svg,.gk .av svg,.av.k svg{width:26px;height:26px}.big2 svg{width:44px;height:44px}
+.pc .av.k{width:40px;height:40px}.gk .av{width:44px;height:44px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-9 5-14 14-14 0 9-5 14-14 14zM5 19l8-8"/></symbol>
+<symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></symbol>
+<symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3"/></symbol>
+<symbol id="i-pot" viewBox="0 0 24 24"><path d="M5 11h14l-1.5 9h-11zM12 11V6M12 8c0-3 2-4 4-4 0 3-1 4-4 4zM12 9c0-2-1.5-3-3.5-3 0 2.5 1 3 3.5 3z"/></symbol>
+<symbol id="i-fruit" viewBox="0 0 24 24"><circle cx="12" cy="14" r="6.5"/><path d="M12 7.5c0-2 1-3.5 3.5-4"/></symbol>
+<symbol id="i-root" viewBox="0 0 24 24"><path d="M7 8h10l-5 13zM12 8V3M9 4l3 2 3-2"/></symbol>
+<symbol id="i-vine" viewBox="0 0 24 24"><path d="M6 21c0-9 12-5 12-13M18 8l-3 1M18 8l1 3M8 14c-2-1-3-3-3-5"/></symbol>
+<symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18h.01"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-3-7zM11 13l4-4"/></symbol>
+<symbol id="i-set" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1-.5-8A5.5 5.5 0 0 1 17 8.5 4.5 4.5 0 0 1 17.5 18z"/></symbol>
+<symbol id="i-rain" viewBox="0 0 24 24"><path d="M7 15a4 4 0 0 1-.5-8A5.5 5.5 0 0 1 17 5.500 4.5 4.5 0 0 1 17.500 15zM8 18l-1 3M12 18l-1 3M16 18l-1 3"/></symbol>
+<symbol id="i-fog" viewBox="0 0 24 24"><path d="M7 12a4 4 0 0 1-.5-8A5.5 5.5 0 0 1 17 2.500 4.5 4.5 0 0 1 17.500 12zM4 16h16M6 20h12"/></symbol>
+<symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 8h11a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h8"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM13 7l4 4"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-ok" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+</defs></svg>
+<div class="wrap">
+<header><button class="lgb" id="homeb" aria-label="হোমে যান" type="button"><svg class="lg" viewBox="0 0 48 48" width="46" height="46" aria-label="RoofSprout লোগো" role="img"><rect width="48" height="48" rx="15" fill="var(--acc)"/><path d="M10 39H38M24 39V24" stroke="var(--onacc)" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M24 29C16 29 12 23 12 16c8 0 12 4 12 13z" fill="var(--onacc)"/><path d="M24 24c0-8 4-13 12-13 0 8-4 13-12 13z" fill="var(--onacc)"/></svg></button><h1 id="homet">RoofSprout<small>ছাদবাগান সহকারী</small></h1><button class="ib" id="setb" aria-label="সেটিং" type="button"></button><button class="ib" id="theme" type="button"></button></header>
+<nav id="nav" aria-label="মেনু"></nav>
+<main id="app"></main>
+</div>
+<div id="splash" aria-hidden="true"></div><div id="toast" role="status" aria-live="polite"></div><div id="fabc"></div><div id="sheet"></div>
+<script>
+/* এআই শিম: অ্যাপে ব্যবহারকারীর নিজের Anthropic API কী দিয়ে চলে */
+(function(){
+if(window.claude)return;
+var MODEL='claude-sonnet-5-5';
+function key(){try{return localStorage.getItem('rs-key')||''}catch(e){return ''}}
+function b64(blob){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(String(r.result).split(',')[1])};r.onerror=rej;r.readAsDataURL(blob)})}
+async function call(prompt,o){o=o||{};var k=key();if(!k)throw {code:'no_key'};
+var content=[];if(o.images&&o.images.length){for(var i=0;i<o.images.length;i++){var im=o.images[i];content.push({type:'image',source:{type:'base64',media_type:im.type||'image/jpeg',data:await b64(im)}})}}
+content.push({type:'text',text:prompt});var res;
+try{res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',signal:o.signal,headers:{'content-type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:MODEL,max_tokens:2000,stream:true,messages:[{role:'user',content:content}]})})}
+catch(e){if(e&&e.name=='AbortError')throw {code:'cancelled'};throw {code:'network'}}
+if(!res.ok){throw {code:res.status==401?'no_key':res.status==429?'rate_limited':'error'}}
+var rd=res.body.getReader(),dec=new TextDecoder(),buf='',text='';
+try{for(;;){var r=await rd.read();if(r.done)break;buf+=dec.decode(r.value,{stream:true});var lines=buf.split('\n');buf=lines.pop();
+for(var j=0;j<lines.length;j++){var ln=lines[j];if(ln.indexOf('data:')==0){try{var ev=JSON.parse(ln.slice(5));if(ev.type=='content_block_delta'&&ev.delta&&ev.delta.text){text+=ev.delta.text;if(o.onText)o.onText({text:text})}}catch(e){}}}}}
+catch(e){if(e&&e.name=='AbortError')throw {code:'cancelled'};throw {code:'network'}}
+return text}
+var sample=async function(p,o){return {text:await call(p,o)}};
+sample.json=async function(p,o){var t=await call(p,o),i=t.indexOf('{'),j=t.lastIndexOf('}');try{return JSON.parse(t.slice(i,j+1))}catch(e){throw {code:'invalid_json'}}};
+sample.limits=async function(){return {images:true}};
+window.claude={use:async function(n){return n=='sample'?sample:null}};
+})();
+</script>
+<script>
+var MN=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+var BM=['পৌষ-মাঘ','মাঘ-ফাল্গুন','ফাল্গুন-চৈত্র','চৈত্র-বৈশাখ','বৈশাখ-জ্যৈষ্ঠ','জ্যৈষ্ঠ-আষাঢ়','আষাঢ়-শ্রাবণ','শ্রাবণ-ভাদ্র','ভাদ্র-আশ্বিন','আশ্বিন-কার্তিক','কার্তিক-অগ্রহায়ণ','অগ্রহায়ণ-পৌষ'];
+var SE=[['শীত','পানি কম লাগে, সকালে দিন। শীতের সবজির ভরা মৌসুম, কুয়াশায় কচি চারা ঢেকে রাখুন।'],['বসন্ত','গরম বাড়ছে। লতানো গাছের জন্য মাচা দিন, পোকা আর আগাছা নজরে রাখুন।'],['গ্রীষ্ম','কড়া রোদে বিকালে পানি দিন। টবের মাটিতে খড় বা শুকনো পাতার আস্তরণ (মালচ) দিন।'],['বর্ষা','টবে পানি জমতে দেবেন না, নিচের ছিদ্র পরিষ্কার রাখুন। ছত্রাকের রোগ বেশি হয়।'],['শরৎ','বৃষ্টি কমছে। শীতের সবজির জন্য মাটি তৈরি করুন, কম্পোস্ট বা জৈব সার মেশান।'],['হেমন্ত','শীতের সবজির চারা লাগানোর সেরা সময়। ভোরে পানি দিন।']];
+var SM=[0,1,1,2,2,3,3,4,4,5,5,0];
+var PL=[
+['tom','টমেটো',[10,11,12],2,'৮-১০ ঘণ্টা রোদ','টব অন্তত ১২ ইঞ্চি গভীর, চারা বড় হলে খুঁটি দিন'],
+['bg','বেগুন',[10,11,2,3],2,'পুরো রোদ','ফুল আসার সময় জৈব সার দিন'],
+['mor','কাঁচা মরিচ',[2,3,8,9],2,'পুরো রোদ','টবে সামান্য ছাই মেশালে গাছ ভালো থাকে'],
+['kop','ফুলকপি-বাঁধাকপি',[10,11],2,'৬-৮ ঘণ্টা রোদ','আগে বীজতলায় চারা করে ৩-৪ সপ্তাহ পর টবে লাগান'],
+['mul','মুলা',[9,10,11,12],2,'৫-৬ ঘণ্টা রোদ','গভীর টব নিন, ঘন চারা পাতলা করে দিন'],
+['pal','পালং শাক',[10,11,12,1],2,'৪-৬ ঘণ্টা রোদ','২৫-৩০ দিনেই কাটা যায়'],
+['lal','লালশাক',[2,3,4,5,6,7,8,9,10],1,'৪-৬ ঘণ্টা রোদ','সবচেয়ে সহজ, নতুনদের জন্য ভালো'],
+['dho','ধনেপাতা',[10,11,12,1],2,'৪ ঘণ্টা রোদ','বীজ ভেঙে ছিটিয়ে হালকা মাটি দিন'],
+['let','লেটুস পাতা',[11,12,1],2,'আংশিক রোদ','গরম পড়লে ছায়ায় সরান'],
+['gaj','গাজর',[10,11,12],3,'৬ ঘণ্টা রোদ','গভীর ও ঝুরঝুরে মাটি লাগে'],
+['sim','শিম',[9,10,11],2,'পুরো রোদ','লতা ওঠার জন্য মাচা বা দড়ি দিন'],
+['cap','ক্যাপসিকাম',[10,11],2,'৬-৮ ঘণ্টা রোদ','জলাবদ্ধতা সহ্য করে না'],
+['mot','মটরশুঁটি',[11,12],3,'৬ ঘণ্টা রোদ','লতার জন্য ছোট মাচা দিন'],
+['pon','পেঁয়াজকলি',[11,12,1],3,'৬ ঘণ্টা রোদ','পেঁয়াজ বা কুঁড়ি পুঁতলেই চারা হয়'],
+['dhe','ঢেঁড়স',[3,4,5,6,7],2,'পুরো রোদ','বীজ রাতে ভিজিয়ে রেখে বুনুন'],
+['jhi','ঝিঙে',[3,4,5,6],2,'পুরো রোদ','লতানো গাছ, মাচা লাগবে'],
+['pui','পুঁইশাক',[3,4,5,6,7,8],2,'আংশিক থেকে পুরো রোদ','লতা ছাদের রেলিংয়ে তুলে দেওয়া যায়'],
+['dan','ডাঁটা',[3,4,5,6,7,8],1,'পুরো রোদ','গরমে দ্রুত বাড়ে'],
+['kor','করলা',[2,3,4],2,'পুরো রোদ','মাচা লাগবে, বীজ ভিজিয়ে বুনুন'],
+['sos','শসা',[2,3,8,9],2,'পুরো রোদ','নিয়মিত পানি না দিলে তেতো হতে পারে'],
+['lau','লাউ-কুমড়া',[1,2,3,9,10],2,'পুরো রোদ','বড় টব ও মজবুত মাচা দরকার'],
+['pud','পুদিনা',[2,3,4,5,6,7,8,9,10],2,'আংশিক রোদ','ডাল কেটে লাগালেই হয়, আলাদা টবে রাখুন'],
+['lem','লেবুর চারা',[6,7,8],3,'পুরো রোদ','বর্ষায় লাগালে শিকড় ভালো ধরে, বড় টব নিন'],
+['adh','আদা-হলুদ',[4,5,6],3,'আংশিক রোদ','টুকরো কন্দ পুঁতে দিন, চওড়া টব ভালো']];
+var PD={};PL.forEach(function(p){PD[p[0]]=p});
+var CM=[['পাতা হলুদ হয়ে যাচ্ছে','বেশি বা কম পানি, অথবা নাইট্রোজেনের ঘাটতি হতে পারে। মাটির ২ ইঞ্চি নিচে আঙুল দিয়ে ভেজা ভাব দেখে পানি ঠিক করুন, আর কম্পোস্ট বা খৈল সার দিন।'],['পাতায় সাদা গুঁড়োর মতো','সম্ভবত পাউডারি মিলডিউ ছত্রাক। আক্রান্ত পাতা ছাঁটুন, বাতাস চলাচলের জায়গা রাখুন, নিম তেল পানিতে মিশিয়ে স্প্রে করুন।'],['পাতা কুঁকড়ে যাচ্ছে বা ছোট হচ্ছে','জাবপোকা, সাদা মাছি বা মাইটের আক্রমণ হতে পারে। পাতার নিচে দেখুন। সাবান-পানি বা নিম তেল স্প্রে করুন, বিকালে।'],['পাতায় বাদামী দাগ','ছত্রাক বা ব্যাকটেরিয়ার দাগ হতে পারে। আক্রান্ত পাতা সরান, পাতার ওপর পানি ঢালবেন না, গোড়ায় পানি দিন।'],['টমেটোর নিচটা কালো হয়ে পচছে','ক্যালসিয়ামের ঘাটতি আর অনিয়মিত পানির কারণে হয়। নিয়মিত পানি দিন, মাটিতে গুঁড়ো ডিমের খোসা বা সামান্য চুন মেশান।'],['গাছ নেতিয়ে পড়ছে','পানির অভাব বা বেশি পানিতে শিকড় পচাও হতে পারে। মাটি শুকনো হলে পানি দিন; ভেজা সত্ত্বেও নেতিয়ে থাকলে টবের নিচে ছিদ্র ঠিক আছে কিনা দেখুন।']];
+var D=86400000,S,PRE=null,IMG=null,SYM='',CTL=null;
+try{S=JSON.parse(localStorage.getItem('chad-v1'))}catch(e){S=null}
+if(!S||!S.g)S={tab:'cal',mon:new Date().getMonth(),g:[]};
+S.tab='cal';S.mon=new Date().getMonth();
+function goHome(){DET=null;GD=null;SET=false;S.tab='cal';S.mon=new Date().getMonth();save();render();window.scrollTo(0,0)}
+function save(){try{localStorage.setItem('chad-v1',JSON.stringify(S))}catch(e){}}
+var $=function(i){return document.getElementById(i)},bn=function(n){return Math.round(n).toLocaleString('bn-BD')};
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function ic(n,s){s=s||20;return '<svg class="ic" width="'+s+'" height="'+s+'" aria-hidden="true"><use href="#i-'+n+'"/></svg>'}
+function toast(t){var e=$('toast');e.textContent=t;e.className='on';setTimeout(function(){e.className=''},2200)}
+function day0(t){return new Date(t).setHours(0,0,0,0)}
+function stat(x){var ds=Math.round((day0(Date.now())-day0(x.last))/D),l=ds-x.int;return {l:l,t:l>=0?(l==0?'আজ পানি দিন':bn(l)+' দিন দেরি হয়েছে'):bn(-l)+' দিন পর পানি দিন'}}
+function dueN(){return S.g.filter(function(x){return stat(x).l>=0}).length}
+var KD={tom:'f',bg:'f',mor:'f',cap:'f',dhe:'f',sos:'f',lem:'f',mul:'r',gaj:'r',adh:'r',sim:'v',mot:'v',jhi:'v',kor:'v',lau:'v',pui:'v'},KI={f:'fruit',r:'root',v:'vine'};
+var DET=null;
+var EM={tom:'🍅',bg:'🍆',mor:'🌶️',kop:'🥦',pal:'🥬',lal:'🍃',dho:'🌿',let:'🥗',gaj:'🥕',sim:'🫘',cap:'🫑',mot:'🫛',pon:'🧅',dhe:'🫛',jhi:'🥒',pui:'🌿',dan:'🌱',kor:'🥒',sos:'🥒',lau:'🥒',pud:'🌿',lem:'🍋',adh:'🫚'};
+var RAD='<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 12c-5 0-8 5-6 10 1.5 4 4 7 6 8 2-1 4.500-4 6-8 2-5-1-10-6-10z" fill="#fff" stroke="#b8c4bf"/><path d="M16 12C13 8 9 8 8 4c4 0 7 2 8 6 1-4 4-6 8-6-1 4-5 4-8 8z" fill="#2E9E4F"/></svg>';
+var W=function(x){return '<svg viewBox="0 0 64 64" aria-hidden="true">'+x+'</svg>'};
+var IM={
+tom:W('<circle cx="32" cy="36" r="20" fill="#E53935"/><ellipse cx="24" cy="29" rx="6" ry="3.5" transform="rotate(-30 24 29)" fill="#fff" opacity=".35"/><path d="M32 17l-7 5h5l2 6 2-6h5z" fill="#43A047"/><path d="M32 17v-6" stroke="#2E7D32" stroke-width="3" stroke-linecap="round"/>'),
+bg:W('<ellipse cx="33" cy="38" rx="13" ry="21" transform="rotate(22 33 38)" fill="#6A2C91"/><ellipse cx="38" cy="30" rx="3" ry="9" transform="rotate(22 38 30)" fill="#fff" opacity=".25"/><path d="M20 17c4-5 12-5 16 0-3 4-10 6-16 0z" fill="#43A047"/><path d="M28 14V9" stroke="#2E7D32" stroke-width="3" stroke-linecap="round"/>'),
+mor:W('<path d="M16 20c18-2 32 8 32 32-9-3-14-10-17-18-3-6-7-10-15-14z" fill="#D32F2F"/><path d="M22 24c10 2 18 8 22 18" stroke="#fff" stroke-width="2.5" stroke-linecap="round" fill="none" opacity=".35"/><circle cx="17" cy="19" r="5" fill="#43A047"/><path d="M13 15l-4-5" stroke="#2E7D32" stroke-width="3" stroke-linecap="round"/>'),
+kop:W('<path d="M10 44c2-10 10-12 22-12s20 2 22 12c-6 8-38 8-44 0z" fill="#4CAF50"/><circle cx="22" cy="30" r="11" fill="#F4EFD8"/><circle cx="36" cy="27" r="12" fill="#FBF7E6"/><circle cx="44" cy="35" r="9" fill="#EFE8CB"/><circle cx="28" cy="38" r="9" fill="#F7F2DD"/>'),
+mul:W('<path d="M32 22c-10 0-14 8-12 16 2 8 8 18 12 24 4-6 10-16 12-24 2-8-2-16-12-16z" fill="#FAF3F5"/><path d="M32 22c-8 0-12 5-12 11 6 2 18 2 24 0 0-6-4-11-12-11z" fill="#E86AA0" opacity=".55"/><path d="M32 22c-3-6-9-9-15-8 2 6 8 10 15 8zM32 22c3-6 9-9 15-8-2 6-8 10-15 8zM32 22V8" stroke="#2E7D32" stroke-width="3" fill="#43A047" stroke-linecap="round"/>'),
+pal:W('<path d="M32 56C16 52 10 36 14 20c12 0 22 8 18 36z" fill="#2E7D32"/><path d="M32 56c4-26 14-34 26-34 4 16-6 32-26 34z" fill="#43A047"/><path d="M32 54C26 40 22 30 18 24M32 54c4-12 10-22 20-28" stroke="#A5D6A7" stroke-width="2" fill="none" stroke-linecap="round"/>'),
+lal:W('<path d="M32 58V30" stroke="#C2185B" stroke-width="3" stroke-linecap="round"/><path d="M32 40C18 38 10 28 12 14c14 2 22 12 20 26z" fill="#AD1457"/><path d="M32 36c14-2 22-12 20-26-14 2-22 12-20 26z" fill="#D81B60"/><path d="M32 52c-10 0-16-6-16-14 10 0 16 6 16 14z" fill="#7CB342"/><path d="M14 16c6 6 12 14 17 22" stroke="#F8BBD0" stroke-width="2" fill="none"/>'),
+dho:W('<path d="M32 58V30" stroke="#388E3C" stroke-width="3" stroke-linecap="round"/><g fill="#66BB6A"><circle cx="32" cy="22" r="8"/><circle cx="20" cy="30" r="8"/><circle cx="44" cy="30" r="8"/><circle cx="26" cy="40" r="7"/><circle cx="39" cy="40" r="7"/></g><g fill="#2E7D32" opacity=".35"><circle cx="32" cy="22" r="3"/><circle cx="20" cy="30" r="3"/><circle cx="44" cy="30" r="3"/></g>'),
+let:W('<circle cx="32" cy="36" r="20" fill="#8BC34A"/><g fill="#AED581"><circle cx="24" cy="30" r="12"/><circle cx="40" cy="30" r="12"/><circle cx="32" cy="44" r="12"/></g><path d="M32 52V30M32 36l-8-8M32 36l8-8" stroke="#DCEDC8" stroke-width="2.5" stroke-linecap="round"/>'),
+gaj:W('<path d="M32 22c-6 0-9 4-9 10 0 8 5 20 9 28 4-8 9-20 9-28 0-6-3-10-9-10z" fill="#FB8C00"/><path d="M26 30h6M28 40h5M30 48h3" stroke="#E65100" stroke-width="2" stroke-linecap="round" opacity=".5"/><path d="M32 22c-6-4-8-9-8-14 5 2 8 7 8 14zM32 22V6M32 22c6-4 8-9 8-14-5 2-8 7-8 14z" fill="#43A047" stroke="#2E7D32" stroke-width="2" stroke-linejoin="round"/>'),
+sim:W('<path d="M10 20C28 18 46 30 54 52c-8 0-16-4-22-12-6-8-12-14-22-20z" fill="#66BB6A"/><path d="M20 12c14 0 28 8 36 26-6-2-12-6-17-12-5-6-11-10-19-14z" fill="#7CB342"/><path d="M14 22c10 2 20 8 28 20" stroke="#C5E1A5" stroke-width="2" fill="none" stroke-linecap="round"/>'),
+cap:W('<path d="M32 18c-14 0-20 10-18 24 2 10 8 16 18 16s16-6 18-16c2-14-4-24-18-24z" fill="#E53935"/><path d="M32 18v40M22 22c-4 10-4 24 2 34M42 22c4 10 4 24-2 34" stroke="#B71C1C" stroke-width="1.8" fill="none" opacity=".4"/><ellipse cx="24" cy="28" rx="3" ry="6" fill="#fff" opacity=".3"/><path d="M26 18c0-4 3-6 6-6s6 2 6 6" stroke="#43A047" stroke-width="4" fill="none" stroke-linecap="round"/>'),
+mot:W('<path d="M8 36c4-14 16-18 28-14 14 4 20 14 20 14-8 12-20 16-32 12-8-3-14-8-16-12z" fill="#7CB342"/><g fill="#388E3C"><circle cx="22" cy="36" r="6"/><circle cx="34" cy="36" r="6.5"/><circle cx="46" cy="35" r="5.5"/></g><g fill="#C5E1A5" opacity=".6"><circle cx="20" cy="34" r="2"/><circle cx="32" cy="34" r="2"/><circle cx="44" cy="33" r="2"/></g>'),
+pon:W('<g fill="#388E3C"><path d="M22 8l4 28h-4zM32 5l3 31h-5zM42 8l-2 28h-4z"/></g><path d="M16 38c0-4 4-6 8-6h16c4 0 8 2 8 6 0 8-8 14-16 14s-16-6-16-14z" fill="#F5F5F0"/><path d="M26 50l-2 8M32 52v6M38 50l2 8" stroke="#E0DACF" stroke-width="2.5" stroke-linecap="round"/><path d="M24 36c2 6 6 12 8 14M40 36c-2 6-6 12-8 14" stroke="#E57373" stroke-width="2" fill="none" opacity=".5"/>'),
+dhe:W('<path d="M18 52c-6-14-2-32 8-42 6 12 6 28-8 42z" fill="#558B2F"/><path d="M38 54c-8-12-6-28 2-38 8 10 10 26-2 38z" fill="#7CB342"/><path d="M22 14c-2 10-2 22 0 34M40 20c-2 8-2 18 0 28" stroke="#33691E" stroke-width="1.6" fill="none" opacity=".5"/><path d="M24 12c2-4 5-5 8-3M42 18c2-3 4-3 6-2" stroke="#33691E" stroke-width="2" fill="none" stroke-linecap="round"/>'),
+jhi:W('<path d="M10 54C14 34 30 14 54 10c-2 24-20 42-44 44z" fill="#66BB6A"/><path d="M14 50C22 36 34 22 50 14M20 52c8-8 20-22 30-30M28 54c8-8 16-18 22-28" stroke="#2E7D32" stroke-width="2" fill="none" opacity=".5"/><path d="M52 8l4-4" stroke="#33691E" stroke-width="3" stroke-linecap="round"/>'),
+pui:W('<path d="M32 58V34" stroke="#8E24AA" stroke-width="3" stroke-linecap="round"/><path d="M32 34c-18 4-24-6-20-18 12-2 22 4 20 18z" fill="#2E7D32"/><path d="M32 34c18 4 24-6 20-18-12-2-22 4-20 18z" fill="#388E3C"/><path d="M32 52c-12 0-18-6-16-14 10-2 18 4 16 14z" fill="#43A047"/><path d="M14 20c6 4 12 8 17 14M50 20c-6 4-12 8-17 14" stroke="#A5D6A7" stroke-width="2" fill="none" stroke-linecap="round"/>'),
+dan:W('<path d="M30 58C30 44 32 34 34 14" stroke="#EC407A" stroke-width="4" stroke-linecap="round" fill="none"/><g fill="#66BB6A"><ellipse cx="24" cy="38" rx="10" ry="5" transform="rotate(-25 24 38)"/><ellipse cx="42" cy="30" rx="10" ry="5" transform="rotate(25 42 30)"/><ellipse cx="24" cy="22" rx="9" ry="4.5" transform="rotate(-25 24 22)"/><ellipse cx="42" cy="46" rx="10" ry="5" transform="rotate(25 42 46)"/></g><circle cx="34" cy="12" r="4" fill="#F06292"/>'),
+kor:W('<path d="M8 40c0-12 14-22 28-20 12 2 20 12 18 22-4 10-18 12-30 8-8-3-16-6-16-10z" fill="#558B2F"/><g fill="#33691E"><circle cx="20" cy="36" r="2.5"/><circle cx="28" cy="30" r="2.5"/><circle cx="36" cy="28" r="2.5"/><circle cx="44" cy="32" r="2.5"/><circle cx="30" cy="42" r="2.5"/><circle cx="40" cy="42" r="2.5"/><circle cx="48" cy="40" r="2"/></g><path d="M54 24l4-6" stroke="#33691E" stroke-width="3" stroke-linecap="round"/>'),
+sos:W('<rect x="6" y="22" width="52" height="22" rx="11" fill="#2E7D32"/><rect x="12" y="26" width="40" height="4" rx="2" fill="#fff" opacity=".2"/><g fill="#A5D6A7"><circle cx="18" cy="37" r="1.6"/><circle cx="28" cy="39" r="1.6"/><circle cx="38" cy="37" r="1.6"/><circle cx="48" cy="39" r="1.6"/></g><path d="M58 30l3-3" stroke="#33691E" stroke-width="3" stroke-linecap="round"/>'),
+lau:W('<path d="M27 8h10c0 8 2 10 6 14 8 8 10 18 4 28-4 6-10 8-15 8s-11-2-15-8c-6-10-4-20 4-28 4-4 6-6 6-14z" fill="#9CCC65"/><ellipse cx="25" cy="42" rx="4" ry="10" fill="#fff" opacity=".28"/><path d="M28 8h8" stroke="#558B2F" stroke-width="3" stroke-linecap="round"/>'),
+pud:W('<path d="M32 56V30" stroke="#2E7D32" stroke-width="3" stroke-linecap="round"/><g fill="#43A047"><path d="M32 34c-14 0-20-8-18-18 12 0 20 8 18 18z"/><path d="M32 34c14 0 20-8 18-18-12 0-20 8-18 18z"/></g><g fill="#66BB6A"><path d="M32 52c-10 0-16-5-14-12 8 0 14 5 14 12z"/><path d="M32 50c10 0 16-5 14-12-8 0-14 5-14 12z"/></g><path d="M16 18c6 4 11 9 15 15M48 18c-6 4-11 9-15 15" stroke="#C8E6C9" stroke-width="2" fill="none"/>'),
+lem:W('<path d="M8 34c0-4 4-6 6-6 4-10 12-14 18-14s14 4 18 14c2 0 6 2 6 6s-4 6-6 6c-4 10-12 14-18 14S18 50 14 40c-2 0-6-2-6-6z" fill="#FDD835"/><ellipse cx="24" cy="26" rx="6" ry="3" transform="rotate(-30 24 26)" fill="#fff" opacity=".4"/><path d="M44 12c6-4 12-2 14 2-4 4-10 4-14-2z" fill="#43A047"/>'),
+adh:W('<path d="M10 40c0-6 6-8 10-8l4-10c2-4 8-4 8 0l-2 8 10-2 4-8c2-4 8-2 8 2l-2 12c6 0 8 6 6 12-2 6-8 8-14 8H22c-8 0-12-6-12-14z" fill="#D7B98E"/><path d="M18 40c4 2 8 2 12 0M32 44c4 2 10 2 14 0" stroke="#A98456" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="26" cy="22" r="2" fill="#A98456"/><circle cx="46" cy="22" r="2" fill="#A98456"/>')};
+var TC={tom:'#EF4444',bg:'#A855F7',mor:'#10B981',kop:'#84CC16',mul:'#EC4899',pal:'#10B981',lal:'#EC4899',dho:'#22C55E',let:'#84CC16',gaj:'#F97316',sim:'#10B981',cap:'#EF4444',mot:'#84CC16',pon:'#14B8A6',dhe:'#22C55E',jhi:'#10B981',pui:'#A855F7',dan:'#EC4899',kor:'#10B981',sos:'#22C55E',lau:'#84CC16',pud:'#10B981',lem:'#F59E0B',adh:'#D97706'};
+function pic(id,big){var k=KD[id]||'l',tc=TC[id]||(CUSTOM[id]?CUSTOM[id].c1:'#10B981');return '<div class="av k k-'+k+(big?' big2':'')+'" style="--tc:'+tc+'" aria-hidden="true">'+(IM[id]||(CUSTOM[id]?shapeSvg(CUSTOM[id]):''))+'</div>'}
+var SOIL='৫০% বাগানের মাটি, ৩০% কম্পোস্ট বা পচা গোবর, ২০% বালি বা কোকোপিট। টবের নিচে পানি বেরোনোর ছিদ্র রাখুন।';
+var TPL={
+leaf:{fn:['কম্পোস্ট','পচা গোবর','ইউরিয়া','খৈল'],f:[['রোপণের ১৫ দিন পর','কম্পোস্ট বা পচা গোবর সার, সাথে অল্প ইউরিয়া'],['প্রতি ২০ দিনে','খৈল ভিজানো তরল সার']],p:[['জাবপোকা, পাতা-খেকো পোকা','নিম তেল বা সাবান-পানি স্প্রে',['ইমিডাক্লোপ্রিড','সাইপারমেথ্রিন']],['পাতায় দাগ, ধসা','আক্রান্ত পাতা ছাঁটুন, গোড়ায় পানি দিন',['ম্যানকোজেব','কপার অক্সিক্লোরাইড']]]},
+fruit:{fn:['কম্পোস্ট','ইউরিয়া','টিএসপি','এমওপি (পটাশ)','জিপসাম'],f:[['রোপণের ১০-১৫ দিন পর','কম্পোস্ট বা গোবর সার, সাথে অল্প ইউরিয়া'],['ফুল আসার আগে (৩০-৪০ দিন)','টিএসপি ও এমওপি (পটাশ)'],['প্রতি ২০-২৫ দিনে','কম্পোস্ট বা খৈলের তরল সার'],['ফল ধরলে','এমওপি (পটাশ); ক্যালসিয়ামের জন্য গুঁড়ো ডিমের খোসা বা জিপসাম']],p:[['জাবপোকা, সাদা মাছি, ডগা ও ফল ছিদ্রকারী পোকা','নিম তেল, ফেরোমোন ফাঁদ, আক্রান্ত ডগা কেটে ফেলা',['ইমিডাক্লোপ্রিড','সাইপারমেথ্রিন','ডেল্টামেথ্রিন']],['ঝলসা, পাতায় দাগ, ঢলে পড়া','জলাবদ্ধতা এড়ান, আক্রান্ত গাছ তুলে ফেলুন',['ম্যানকোজেব','কার্বেন্ডাজিম','কপার অক্সিক্লোরাইড']]]},
+cole:{fn:['কম্পোস্ট','ইউরিয়া','এমওপি (পটাশ)','বোরন'],f:[['রোপণের ১৫ দিন পর','কম্পোস্ট ও অল্প ইউরিয়া'],['৩০ দিন পর','ইউরিয়া ও এমওপি; কপির জন্য সামান্য বোরন'],['৪৫ দিন পর','কম্পোস্টের তরল সার']],p:[['কপির পাতা-খেকো পোকা, জাবপোকা','হাতে ধরে মারুন, নিম তেল',['সাইপারমেথ্রিন','স্পিনোস্যাড']],['পচা রোগ, পাতায় দাগ','পানি গোড়ায় দিন, বাতাস চলাচল রাখুন',['ম্যানকোজেব','কপার অক্সিক্লোরাইড']]]},
+root:{fn:['পচা গোবর','কম্পোস্ট','ইউরিয়া','এমওপি (পটাশ)'],f:[['বীজ বোনার আগে','পচা গোবর বা কম্পোস্ট মাটিতে মেশান (কাঁচা গোবর নয়)'],['২০-২৫ দিন পর','অল্প ইউরিয়া ও এমওপি'],['৩৫-৪০ দিন পর','এমওপি (পটাশ), মাটি আলগা করে']],p:[['পাতা-খেকো পোকা, জাবপোকা','নিম তেল স্প্রে',['ম্যালাথিয়ন','সাইপারমেথ্রিন']],['শিকড় পচা','অতিরিক্ত পানি এড়ান',['কার্বেন্ডাজিম']]]},
+vine:{fn:['কম্পোস্ট','টিএসপি','এমওপি (পটাশ)','খৈল'],f:[['চারা ২০ দিনের হলে','কম্পোস্ট বা গোবর সার'],['ফুল আসার আগে','টিএসপি ও এমওপি (পটাশ)'],['প্রতি ২০ দিনে','খৈল ভিজানো তরল সার']],p:[['ফলের মাছি, জাবপোকা, লাল কুমড়া বিটল','নিম তেল, ফলে কাগজ জড়ানো, ফেরোমোন ফাঁদ',['সাইপারমেথ্রিন','ডাইমিথোয়েট']],['পাউডারি ও ডাউনি মিলডিউ','বাতাস চলাচল, আক্রান্ত পাতা ছাঁটা',['ম্যানকোজেব','সালফারযুক্ত ছত্রাকনাশক']]]},
+tree:{fn:['কম্পোস্ট','এনপিকে সার','এমওপি (পটাশ)','বোরন'],f:[['চারা লাগানোর ২ মাস পর','কম্পোস্ট বা পচা গোবর'],['প্রতি ৩ মাসে','কম্পোস্টের সাথে অল্প এনপিকে সার'],['ফুল আসার আগে','এমওপি (পটাশ) ও সামান্য বোরন']],p:[['পাতা সুড়ঙ্গকারী পোকা, জাবপোকা','নতুন পাতায় নিম তেল স্প্রে',['ইমিডাক্লোপ্রিড']],['ক্যাঙ্কার, গামোসিস','আক্রান্ত ডাল কেটে ফেলুন',['কপার অক্সিক্লোরাইড']]]},
+rhiz:{fn:['কম্পোস্ট','গোবর','এমওপি (পটাশ)'],f:[['রোপণের ৩০ দিন পর','কম্পোস্ট ও গোবর সার'],['৬০ দিন পর','কম্পোস্ট ও অল্প পটাশ']],p:[['পাতা-খেকো পোকা (কম হয়)','নিম তেল',['সাধারণত লাগে না']],['কন্দ পচা','জলাবদ্ধতা এড়ান, আংশিক ছায়া দিন',['কার্বেন্ডাজিম','ম্যানকোজেব']]]}};
+var PX={
+tom:['fruit','১২-১৪ ইঞ্চি গভীর টব বা ড্রাম, প্রতি টবে ১টা চারা','আগে বীজতলা বা ছোট ট্রেতে বীজ বুনে চারা করুন। ২৫-৩০ দিনের চারা বিকালে টবে লাগিয়ে হালকা পানি দিন, আর খুঁটি পুঁতে দিন।','৫-৭','৬০-৮০'],
+bg:['fruit','১২-১৪ ইঞ্চি টব, ১টা চারা','বীজতলায় চারা তৈরি করে ৩০-৩৫ দিন পর টবে লাগান।','৭-১০','৭০-৯০'],
+mor:['fruit','১০-১২ ইঞ্চি টব','বীজতলায় চারা করে ২৫-৩০ দিন পর টবে লাগান।','৭-১২','৭০-৯০'],
+cap:['fruit','১২ ইঞ্চি টব, ১টা চারা','বীজতলায় চারা করে ৩০-৩৫ দিন পর লাগান। জলাবদ্ধতা এড়ান।','৭-১০','৭০-৯০'],
+dhe:['fruit','১২ ইঞ্চি টব','বীজ রাতে ভিজিয়ে ১ ইঞ্চি গভীরে ২-৩টা বুনুন, পরে সবচেয়ে ভালো চারাটা রাখুন।','৫-৮','৫০-৬০'],
+kop:['cole','১২-১৪ ইঞ্চি টব, ১টা চারা','বীজতলায় চারা তৈরি করে ২৫-৩০ দিনের চারা টবে লাগান।','৪-৭','৬০-১০০ (জাতভেদে)'],
+mul:['root','১২ ইঞ্চি গভীর টব বা লম্বা বাক্স','সরাসরি বীজ বুনুন, আধা ইঞ্চি গভীরে ও ২-৩ ইঞ্চি দূরে দূরে। চারা ঘন হলে পাতলা করে দিন।','৩-৫','৪০-৫০'],
+gaj:['root','১২ ইঞ্চি গভীর টব','সারিতে বীজ বুনুন, পরে ২ ইঞ্চি দূরে দূরে পাতলা করুন।','১০-১৫','৭০-৯০'],
+pal:['leaf','৮-১০ ইঞ্চি টব বা ট্রে','বীজ রাতে ভিজিয়ে ছিটিয়ে বুনুন, হালকা মাটি ঢেকে দিন।','৫-৭','২৫-৩৫'],
+lal:['leaf','৮ ইঞ্চি টব বা ট্রে','বীজ বালির সাথে মিশিয়ে ছিটিয়ে দিন।','৩-৫','২০-৩০'],
+dho:['leaf','৮ ইঞ্চি টব','বীজ হালকা ভেঙে ১-২ দিন ভিজিয়ে বুনুন।','১০-১৫','৩০-৪০'],
+let:['leaf','৮ ইঞ্চি টব','ছোট বীজ উপরে ছিটিয়ে হালকা মাটি দিন। গরম পড়লে ছায়ায় রাখুন।','৫-৭','৪০-৫০'],
+pon:['leaf','৮ ইঞ্চি টব বা ট্রে','গোড়াসহ পেঁয়াজের কুঁড়ি বা কন্দ মাটিতে পুঁতুন।','৭-১০ (নতুন পাতা)','২৫-৩০ (পাতা কাটা)'],
+dan:['leaf','৮-১০ ইঞ্চি টব','বীজ ছিটিয়ে বুনুন, গরমে দ্রুত বাড়ে।','৩-৫','৩০-৪০'],
+pui:['leaf','১২ ইঞ্চি টব','বীজ বা ডাল কেটে লাগান, লতা রেলিং বা মাচায় তুলে দিন।','৫-৭','৪০-৫০ (পাতা কাটা)'],
+pud:['leaf','৮-১০ ইঞ্চি টব','ডাল কেটে মাটিতে পুঁতলেই শিকড় গজায়। আলাদা টবে রাখুন, নইলে ছড়িয়ে যায়।','৭-১০ (শিকড়)','৩০-৪০ (পাতা কাটা)'],
+sim:['vine','১২-১৪ ইঞ্চি টব','বীজ ১ ইঞ্চি গভীরে ২-৩টা বুনুন, লতার জন্য মাচা দিন।','৫-৭','৬০-৯০'],
+mot:['vine','১০-১২ ইঞ্চি টব','বীজ ১ ইঞ্চি গভীরে বুনুন, ছোট মাচা বা কাঠি দিন।','৭-১০','৬০-৭০'],
+jhi:['vine','১২-১৪ ইঞ্চি টব','বীজ ভিজিয়ে ১ ইঞ্চি গভীরে বুনুন, মাচা দিন।','৫-৮','৫০-৬০'],
+kor:['vine','১৪ ইঞ্চি টব','বীজ কুসুম গরম পানিতে ভিজিয়ে বুনুন, মাচা দিন।','৭-১০','৬০-৭০'],
+sos:['vine','১২-১৪ ইঞ্চি টব','বীজ ১ ইঞ্চি গভীরে বুনুন, লতা মাচায় তুলুন।','৩-৫','৪৫-৬০'],
+lau:['vine','২০ ইঞ্চি বড় টব বা ড্রাম','বীজ ২-৩টা ১ ইঞ্চি গভীরে বুনুন, মজবুত মাচা দিন।','৫-৮','৮০-১০০'],
+lem:['tree','১৮-২০ ইঞ্চি বড় টব বা ড্রাম','কলমের চারা টবে বসান, গোড়া বেশি গভীরে নয়। প্রথম মাস আংশিক ছায়ায় রাখুন।','চারা থেকে শুরু, তাই লাগে না','ফল আসতে ১-২ বছর'],
+adh:['rhiz','১৪-১৬ ইঞ্চি চওড়া টব বা বস্তা','কুঁড়িসহ টুকরো কন্দ ২ ইঞ্চি গভীরে পুঁতুন, আংশিক ছায়া দিন।','২০-৩০','৭-৯ মাস']};
+function detail(id){var p=PD[id],x=PX[id],t=CUSTOM[id]||TPL[x[0]],has=S.g.some(function(g){return g.pid==id});
+return '<button class="btn s" data-back="1" type="button" style="margin-bottom:12px">'+ic('arrow',16)+'ফিরে যান</button>'
++'<section class="card"><div class="row" style="gap:14px">'+pic(id,true)+'<div class="g"><h2 style="margin:0;font-size:22px">'+p[1]+'</h2><div class="m">'+p[5]+'</div></div></div><div class="kv" style="margin-top:12px"><div class="kvi"><span class="m">লাগানোর মাস</span><b>'+p[2].map(function(m){return MN[m-1]}).join(', ')+'</b></div><div class="kvi"><span class="m">পানি</span><b>প্রতি '+bn(p[3])+' দিনে</b></div><div class="kvi"><span class="m">রোদ</span><b>'+p[4]+'</b></div></div>'+(has?'<div class="added" style="margin-top:8px">'+ic('ok',18)+'বাগানে আছে</div>':'<button class="btn p wide" data-add="'+id+'" type="button" style="margin-top:12px">'+ic('plus',18)+'বাগানে যোগ করুন</button>')+'</section>'
++'<section class="card"><h2>কীভাবে লাগাবেন</h2><div class="steps2"><div class="ck" style="cursor:default"><span><b>১. টব:</b> '+x[1]+'</span></div><div class="ck" style="cursor:default"><span><b>২. মাটি:</b> '+SOIL+'</span></div><div class="ck" style="cursor:default"><span><b>৩. পদ্ধতি:</b> '+x[2]+'</span></div><div class="ck" style="cursor:default"><span><b>৪. পানি:</b> লাগানোর পর হালকা পানি দিন, তারপর প্রতি '+bn(p[3])+' দিনে।</span></div></div></section>'
++'<section class="card"><h2>চাষের সময়সূচি</h2><div class="tl"><div class="ti"><b>দিন ০</b>বীজ বা চারা লাগান</div><div class="ti w"><b>'+x[3]+' দিনে</b>অঙ্কুর গজাবে বা চারা বসে যাবে</div>'+t.f.map(function(f){return '<div class="ti"><b>'+f[0]+'</b>'+f[1]+'</div>'}).join('')+'<div class="ti p"><b>প্রতি সপ্তাহে</b>পাতার নিচে পোকা বা রোগ আছে কিনা দেখুন</div><div class="ti h"><b>'+x[4]+' দিনে</b>ফসল তোলার উপযোগী</div></div></section>'
++'<section class="card"><h2>সার</h2><div class="m">সারের নাম</div><div>'+t.fn.map(function(n){return '<span class="fm">'+n+'</span>'}).join('')+'</div><div class="m" style="margin-top:10px">জৈব সার (কম্পোস্ট, গোবর, খৈল) সবচেয়ে নিরাপদ। ইউরিয়া, টিএসপি বা এমওপির মতো রাসায়নিক সার টবে অল্প নিন, পানিতে গুলে গোড়া থেকে একটু দূরে দিন। মাত্রা প্যাকেট বা কৃষি কর্মকর্তার নির্দেশমতো।</div></section>'
++'<section class="card"><h2>পোকা-রোগ ও কীটনাশকের নাম</h2>'+t.p.map(function(r){return '<div class="prow"><div class="t">'+r[0]+'</div><div class="m">আগে জৈব উপায়: <span style="color:var(--ink)">'+r[1]+'</span></div><div class="m" style="margin-top:4px">না কমলে রাসায়নিক (শেষ উপায়):</div><div>'+r[2].map(function(n){return '<span class="cm">'+n+'</span>'}).join('')+'</div></div>'}).join('')+'<div class="m" style="margin-top:8px">কত দিন পর: সপ্তাহে ১ বার গাছ দেখুন। সমস্যা দেখা গেলে আগে জৈব উপায়ে ৩-৪ দিন চেষ্টা করুন। না কমলে রাসায়নিক স্প্রে করুন, দরকারে প্যাকেটের নির্দেশমতো কিছুদিন পর আবার।</div><div class="ex">'+ic('warn',18)+'<span>প্যাকেটের নির্দেশ ও মাত্রা মানুন। মাস্ক ও গ্লাভস পরুন, সন্ধ্যায় স্প্রে করুন। প্যাকেটে লেখা অপেক্ষার সময় পার না হলে ফসল তুলবেন না। ফুল ফোটার সময় মৌমাছি থাকলে স্প্রে এড়ান। দ্বিধা থাকলে কৃষি কর্মকর্তাকে জিজ্ঞেস করুন।</span></div></section>'
++(CUSTOM[id]?'<div class="ex" style="margin-bottom:12px">'+ic('warn',18)+'<span>এই গাছের তথ্য এআই তৈরি করেছে। কাজে লাগানোর আগে স্থানীয় নার্সারি বা কৃষি কর্মকর্তার কাছ থেকে যাচাই করে নিন।</span></div><button class="btn wide" data-delc="'+id+'" type="button" style="margin-bottom:10px">'+ic('x',18)+'এই গাছ মুছুন</button>':'')+'<button class="btn wide" data-dxp="'+id+'" type="button">'+ic('cam')+'ছবি তুলে রোগ পরীক্ষা করুন</button><div class="m" style="text-align:center;margin-top:10px">এগুলো সাধারণ নির্দেশিকা। জাত, এলাকা ও আবহাওয়াভেদে সময় বদলাতে পারে।</div>'}
+var CUSTOM={},ADDING=false,SHAPES=['round','long','leafy','root','pod','cluster','bulb'],KINDS=['fruit','leaf','cole','root','vine','tree','rhiz'];
+function shapeSvg(it){var a=it.c1,b=it.c2,w;switch(it.shape){
+case 'long':w='<ellipse cx="33" cy="38" rx="11" ry="22" transform="rotate(24 33 38)" fill="'+a+'"/><ellipse cx="37" cy="30" rx="2.5" ry="9" transform="rotate(24 37 30)" fill="#fff" opacity=".28"/><path d="M20 17c4-5 12-5 16 0-3 4-10 6-16 0z" fill="'+b+'"/>';break;
+case 'leafy':w='<path d="M32 58V30" stroke="'+b+'" stroke-width="3" stroke-linecap="round"/><path d="M32 40C18 38 10 28 12 14c14 2 22 12 20 26z" fill="'+a+'"/><path d="M32 36c14-2 22-12 20-26-14 2-22 12-20 26z" fill="'+b+'"/><path d="M14 16c6 6 12 14 17 22" stroke="#fff" stroke-width="2" fill="none" opacity=".4"/>';break;
+case 'root':w='<path d="M32 22c-6 0-9 4-9 10 0 8 5 20 9 28 4-8 9-20 9-28 0-6-3-10-9-10z" fill="'+a+'"/><path d="M32 22c-6-4-8-9-8-14 5 2 8 7 8 14zM32 22V6M32 22c6-4 8-9 8-14-5 2-8 7-8 14z" fill="'+b+'"/>';break;
+case 'pod':w='<path d="M10 20C28 18 46 30 54 52c-8 0-16-4-22-12-6-8-12-14-22-20z" fill="'+a+'"/><path d="M14 22c10 2 20 8 28 20" stroke="'+b+'" stroke-width="2.5" fill="none" stroke-linecap="round"/>';break;
+case 'cluster':w='<path d="M32 8v12" stroke="'+b+'" stroke-width="3" stroke-linecap="round"/><g fill="'+a+'"><circle cx="24" cy="26" r="8"/><circle cx="40" cy="26" r="8"/><circle cx="32" cy="38" r="8"/><circle cx="20" cy="42" r="7"/><circle cx="44" cy="42" r="7"/><circle cx="32" cy="52" r="6"/></g><circle cx="22" cy="23" r="2.5" fill="#fff" opacity=".4"/>';break;
+case 'bulb':w='<path d="M32 10c-2 8-2 12 0 14" stroke="'+b+'" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M32 22c-14 4-20 14-16 24 3 8 10 12 16 12s13-4 16-12c4-10-2-20-16-24z" fill="'+a+'"/><ellipse cx="24" cy="38" rx="3" ry="8" fill="#fff" opacity=".3"/>';break;
+default:w='<circle cx="32" cy="36" r="20" fill="'+a+'"/><ellipse cx="24" cy="29" rx="6" ry="3.5" transform="rotate(-30 24 29)" fill="#fff" opacity=".35"/><path d="M32 17l-7 5h5l2 6 2-6h5z" fill="'+b+'"/><path d="M32 17v-6" stroke="'+b+'" stroke-width="3" stroke-linecap="round"/>'}
+return W(w)}
+function reg(it){PL.push([it.id,it.name,it.months,it.water,it.sun,it.tip]);PD[it.id]=PL[PL.length-1];PX[it.id]=[it.kind,it.pot,it.sow,it.gem,it.har];CUSTOM[it.id]=it;KD[it.id]={fruit:'f',root:'r',rhiz:'r',vine:'v'}[it.kind]||'l'}
+(S.cp||[]).forEach(reg);
+function sx(v,n){return typeof v=='string'?esc(v.slice(0,n||200)):''}
+function clean(r,name){if(!r||r.ok===false)return null;var mo=[];(r.months||[]).forEach(function(m){m=Math.round(+m);if(m>=1&&m<=12&&mo.indexOf(m)<0)mo.push(m)});
+var f=(r.fert||[]).slice(0,5).map(function(x){return [sx(x&&x[0],80),sx(x&&x[1],160)]}).filter(function(x){return x[0]&&x[1]}),
+p=(r.pests||[]).slice(0,3).map(function(x){return [sx(x&&x[0],100),sx(x&&x[1],160),((x&&x[2])||[]).slice(0,4).map(function(c){return sx(c,50)}).filter(Boolean)]}).filter(function(x){return x[0]&&x[1]});
+if(!mo.length||!f.length||!p.length)return null;p.forEach(function(x){if(!x[2].length)x[2]=['সাধারণত লাগে না']});
+var hx=/^#[0-9a-fA-F]{6}$/,nm=(typeof r.name=='string'&&r.name.length<30?r.name:name).replace(/[<>&"'`]/g,'').trim()||name;
+return {id:'c'+Date.now(),name:nm,months:mo.sort(function(a,b){return a-b}),water:Math.max(1,Math.min(10,Math.round(+r.water||2))),sun:sx(r.sun,40)||'পুরো রোদ',tip:sx(r.tip,120),kind:KINDS.indexOf(r.kind)>-1?r.kind:'fruit',shape:SHAPES.indexOf(r.shape)>-1?r.shape:'round',c1:hx.test(r.c1)?r.c1:'#E53935',c2:hx.test(r.c2)?r.c2:'#43A047',pot:sx(r.pot,120),sow:sx(r.sow,300),gem:sx(r.gem,40)||'৭-১০',har:sx(r.har,40)||'৬০-৯০',f:f,fn:(r.fertnames||[]).slice(0,6).map(function(c){return sx(c,40)}).filter(Boolean),p:p}}
+function setAddMsg(t){var m=$('amsg');if(m)m.textContent=t}
+function setAddBusy(b){var g=$('addgo');if(g){g.disabled=b;g.textContent=b?'বিস্তারিত তৈরি হচ্ছে…':'যোগ করুন'}if(b)setAddMsg('১০-২০ সেকেন্ড লাগতে পারে, অপেক্ষা করুন।')}
+function openAdd(){$('sheet').innerHTML='<div class="sov" data-close="1"></div><div class="spn" role="dialog" aria-modal="true" aria-label="নতুন গাছ যোগ"><div class="row"><h2 class="g" style="margin:0">নতুন সবজি বা ফল</h2><button class="x" data-close="1" aria-label="বন্ধ করুন" type="button">'+ic('x')+'</button></div><div class="m">শুধু নাম লিখুন। ছবি, চাষের নিয়ম, সার ও রোগের তথ্য নিজে থেকে তৈরি হবে।</div><input class="tx" id="pname" placeholder="যেমন: পেঁপে, স্ট্রবেরি, পটল" autocomplete="off"><div class="sy">'+['পেঁপে','পটল','স্ট্রবেরি','ব্রকলি','কাঁচা কলা'].map(function(n){return '<button class="chip" data-ex="'+n+'" type="button">'+n+'</button>'}).join('')+'</div><div class="m" id="amsg" aria-live="polite"></div><button class="btn p wide" id="addgo" type="button" style="min-height:52px">যোগ করুন</button></div>';$('sheet').className='on';$('pname').focus()}
+function closeAdd(){if(ADDING)return;$('sheet').className='';$('sheet').innerHTML=''}
+async function addPlant(raw){var name=(raw||'').replace(/[<>&"'`]/g,'').trim().slice(0,30);if(!name||ADDING)return;
+var ex=PL.filter(function(p){return p[1]==name})[0];if(ex){closeAdd();DET=ex[0];S.tab='cal';render();window.scrollTo(0,0);toast('এটা আগে থেকেই আছে');return}
+var sp=null;try{sp=await claude.use('sample')}catch(e){}
+if(!sp){setAddMsg('এআই এখানে চালু নেই, তাই নতুন গাছের তথ্য তৈরি করা যাচ্ছে না।');return}
+ADDING=true;setAddBusy(true);
+var P='তুমি বাংলাদেশের ছাদবাগানের অভিজ্ঞ কৃষি পরামর্শদাতা। ব্যবহারকারী ছাদের টবে "'+name+'" লাগাতে চায়। এটা টবে চাষযোগ্য সবজি, ফল, শাক বা মসলা গাছ না হলে ok=false দাও ও note-এ বাংলায় কারণ লেখো।\nনিয়ম: months-এ শুধু বাংলাদেশে সত্যিই লাগানো যায় এমন মাসের নম্বর (১ থেকে ১২ সংখ্যা)। নিশ্চিত না হলে কম দাও, বানিয়ে বলো না। রাসায়নিকের শুধু নাম দাও, মাত্রা নয়। আগে জৈব উপায় বলো। kind হবে fruit(ফল-সবজি), leaf(শাক বা পাতা), cole(কপি), root(মূল), vine(লতানো), tree(গাছ-ফল), rhiz(কন্দ) এর একটা। shape হবে round, long, leafy, root, pod, cluster, bulb এর একটা, যেটা দেখতে সবচেয়ে কাছের। c1 মূল রঙ (#RRGGBB), c2 পাতা বা বোঁটার রঙ (#RRGGBB)।\nশুধু এই JSON দাও, লেখার মান সব বাংলায়:\n{"ok":true,"note":"","name":"বাংলা নাম","months":[10,11],"water":2,"sun":"রোদের পরিমাণ","tip":"এক লাইনের টিপস","kind":"fruit","shape":"round","c1":"#E53935","c2":"#43A047","pot":"টবের মাপ","sow":"লাগানোর পদ্ধতি ১-২ বাক্য","gem":"৫-৭","har":"৬০-৮০","fert":[["কখন","কী সার"]],"fertnames":["কম্পোস্ট"],"pests":[["সমস্যা","জৈব উপায়",["রাসায়নিকের নাম"]]]}\nfert-এ ৩-৪টা, pests-এ ২টা দাও।';
+try{var r=await sp.json(P,{cache:false,modelTier:'default'}),it=clean(r,name);
+if(!it){setAddMsg((r&&typeof r.note=='string'&&r.note)?r.note:'এই নামে ছাদের টবে চাষযোগ্য গাছের তথ্য পাওয়া গেল না। অন্য নাম দিয়ে চেষ্টা করুন।')}
+else{S.cp=S.cp||[];S.cp.push(it);reg(it);save();ADDING=false;closeAdd();DET=it.id;S.tab='cal';render();window.scrollTo(0,0);toast(it.name+' যোগ হয়েছে');return}}
+catch(e){setAddMsg(ERR[e.code]||'এখন তথ্য তৈরি করা যায়নি, একটু পরে আবার চেষ্টা করুন।')}
+ADDING=false;setAddBusy(false)}
+function delCustom(id){S.cp=(S.cp||[]).filter(function(c){return c.id!=id});PL=PL.filter(function(p){return p[0]!=id});delete PD[id];delete PX[id];delete CUSTOM[id];delete KD[id];DET=null;save();render();window.scrollTo(0,0);toast('মুছে ফেলা হয়েছে')}
+var GD=null,GL={f:'',c:'',cf:'',cc:'',df:'',dc:''},FS=['চারা','বাড়ছে','ফুল এসেছে','ফল ধরেছে','ফল পাকছে','ফল তোলা চলছে'],LS=['চারা','বাড়ছে','প্রায় তৈরি','তোলার উপযোগী','তোলা হয়েছে'];
+function gitem(id){return S.g.filter(function(x){return x.id==id})[0]}
+function parseD(t){t=String(t||'').replace(/[০-৯]/g,function(c){return '০১২৩৪৫৬৭৮৯'.indexOf(c)});var m=t.match(/(\d+)(?:\s*[-–]\s*(\d+))?/);if(!m)return null;var n=+(m[2]||m[1]),u=/বছর/.test(t)?365:/মাস/.test(t)?30:1;return n*u}
+function ago(ts){var d=Math.round((day0(Date.now())-day0(ts))/D);return d<=0?'আজ':d==1?'গতকাল':bn(d)+' দিন আগে'}
+function fdt(ts){return new Date(ts).toLocaleDateString('bn-BD',{day:'numeric',month:'short',year:'numeric'})}
+function dstr(ts){var d=new Date(ts),z=function(n){return (n<10?'0':'')+n};return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())}
+function spark(hs){if(hs.length<2)return '';var a=hs.slice(-8),mn=Math.min.apply(0,a.map(function(x){return x.h})),mx=Math.max.apply(0,a.map(function(x){return x.h})),r=(mx-mn)||1,pts=a.map(function(x,i){return [10+i*(220/(a.length-1)),50-(x.h-mn)/r*40]});
+return '<svg viewBox="0 0 240 60" width="100%" height="60" role="img" aria-label="উচ্চতার পরিবর্তন"><polyline points="'+pts.map(function(q){return q.join(',')}).join(' ')+'" fill="none" stroke="var(--acc)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'+pts.map(function(q){return '<circle cx="'+q[0]+'" cy="'+q[1]+'" r="4" fill="var(--acc)"/>'}).join('')+'</svg>'}
+function lsec(it,ty,names,title,ic0){var L=(it.log||[]).filter(function(l){return l.t==ty}).sort(function(a,b){return b.ts-a.ts}),last=L[0];
+return '<section class="card"><h2>'+title+'</h2>'+(last?'<div class="m">শেষবার: <b style="color:var(--ink)">'+esc(last.name)+'</b>, '+ago(last.ts)+'</div>':'<div class="m">এখনো কিছু রেকর্ড করা হয়নি</div>')
++'<details class="lgf"><summary>হাতে রেকর্ড করুন</summary><div class="m" style="margin:8px 0 6px">কোনটা দিলেন?</div><div class="sy">'+names.map(function(n){return '<button class="chip'+(GL[ty]==n?' on':'')+'" data-ln="'+ty+'" data-lv="'+esc(n)+'" type="button">'+esc(n)+'</button>'}).join('')+'</div><input class="tx" id="ln_'+ty+'" placeholder="অথবা অন্য নাম লিখুন" value="'+esc(GL['c'+ty])+'" style="margin-top:8px"><label class="m" for="ld_'+ty+'" style="display:block;margin:8px 0 4px">কবে দিয়েছেন</label><input class="tx" id="ld_'+ty+'" type="date" max="'+dstr(Date.now())+'" value="'+(GL['d'+ty]||dstr(Date.now()))+'"><button class="btn p wide" data-lsave="'+ty+'" type="button" style="margin-top:10px">'+ic('plus',18)+'রেকর্ড করুন</button></details>'
++(L.length?'<div class="items" style="gap:8px">'+L.map(function(l){return '<div class="lgi"><div class="g"><div class="t">'+esc(l.name)+'</div><div class="m">'+fdt(l.ts)+' · '+ago(l.ts)+'</div></div><button class="x" data-ldel="'+l.id+'" aria-label="মুছুন" type="button">'+ic('x',18)+'</button></div>'}).join('')+'</div>':'')
++(ty=='c'?'<div class="ex">'+ic('warn',18)+'<span>ওষুধ দেওয়ার পর প্যাকেটে লেখা অপেক্ষার সময় পার না হলে ফসল তুলবেন না।</span></div>':'')+'</section>'}
+var SC={busy:false,err:''},HL={good:['low','সুস্থ'],fair:['medium','মোটামুটি'],poor:['high','দুর্বল']};
+function cn(v,n){return String(v==null?'':v).replace(/[<>&"'`]/g,'').trim().slice(0,n||80)}
+function curSum(it,ST,fr){var lh=(it.hs||[])[(it.hs||[]).length-1];return '<div class="kv"><div class="kvi"><span class="m">ধাপ</span><b>'+ST[it.st||0]+'</b></div><div class="kvi"><span class="m">উচ্চতা</span><b>'+(lh?bn(lh.h)+' সেমি'+(lh.est?' (আনুমানিক)':''):'মাপা হয়নি')+'</b></div>'+(fr?'<div class="kvi"><span class="m">ফল</span><b>'+((it.fr||0)>0?bn(it.fr)+'টা':'এখনো নেই')+'</b></div>':'')+'</div>'+spark(it.hs||[])}
+function sug(k,o,lab){return o?'<div class="sgi"><div class="g"><div class="m">'+lab+'</div><div class="t" style="white-space:normal">'+esc(o.name)+'</div><div class="m">'+esc(o.why||'')+'</div></div><button class="btn s p" data-rec="'+k+'" type="button">দিলাম</button></div>':''}
+function scanCard(it,ST,fr){var c=it.sc,h=c&&HL[c.health]?HL[c.health]:HL.fair;
+return '<section class="card"><div class="dh"><div class="av">'+ic('cam',24)+'</div><div class="g"><h2 style="margin:0">ছবি তুলুন, বাকিটা এআই দেখবে</h2><div class="m">অবস্থা, উচ্চতা, ফল আর কী দিতে হবে, সব নিজে থেকে বলবে</div></div></div>'
++'<label class="btn p wide" for="gfile" style="cursor:pointer;'+(SC.busy?'opacity:.6':'')+'">'+ic('cam')+(SC.busy?'ছবি দেখছি…':'গাছের ছবি তুলুন বা বাছুন')+'</label><input id="gfile" type="file" accept="image/*" style="position:absolute;opacity:0;width:1px;height:1px"'+(SC.busy?' disabled':'')+'>'
++(SC.busy?'<div class="m" style="margin-top:8px">১০-২০ সেকেন্ড লাগতে পারে, অপেক্ষা করুন…</div>':'')+(SC.err?'<div class="ex">'+ic('warn',18)+'<span>'+esc(SC.err)+'</span></div>':'')
++(c&&!SC.busy?'<div class="row" style="margin:14px 0 8px;gap:8px"><span class="sev '+h[0]+'">'+h[1]+'</span><span class="m">'+ago(c.ts)+' দেখা, এআই-এর অনুমান</span></div><div>'+esc(c.summary||'')+'</div>'
++((c.issues&&c.issues.length)?'<div class="m" style="margin-top:10px">যা চোখে পড়েছে</div><ul class="pv2">'+c.issues.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>':'')
++(c.harvest?'<div class="m" style="margin-top:8px">ফসল: <span style="color:var(--ink)">'+esc(c.harvest)+'</span></div>':'')
++((c.fert||c.chem)?'<div class="m" style="margin-top:12px">এখন কী দিতে পারেন (দিলে এক ট্যাপে রেকর্ড হবে)</div>'+sug('f',c.fert,'সার')+sug('c',c.chem,'ওষুধ')+'<div class="m" style="margin-top:6px">রাসায়নিক হলে প্যাকেটের মাত্রা ও অপেক্ষার সময় মানুন।</div>':'')
++((c.tips&&c.tips.length)?'<ul class="pv2" style="margin-top:10px">'+c.tips.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>':'')
++'<div class="m" style="margin-top:8px">ধাপ, উচ্চতা ও ফলের সংখ্যা নিচে নিজে থেকে বসে গেছে। ভুল লাগলে "হাতে ঠিক করুন" থেকে বদলান।</div>':'')
++((it.ph&&it.ph.length)?'<div class="m" style="margin:14px 0 6px">ছবির ইতিহাস</div><div class="ph">'+it.ph.map(function(p){return '<div><img src="'+p.th+'" alt="'+fdt(p.ts)+' এর ছবি">'+new Date(p.ts).toLocaleDateString('bn-BD',{day:'numeric',month:'short'})+'</div>'}).join('')+'</div>':'')+'</section>'}
+async function runScan(b,th){if(SC.busy)return;var it=gitem(GD);if(!it)return;
+var sp=null;try{sp=await claude.use('sample')}catch(e){}
+if(!sp){toast('এআই এখানে চালু নেই');return}
+var im=false;try{var l=await sp.limits();im=!!(l&&l.images)}catch(e){}
+if(!im){toast('এখানে ছবি পাঠানো যাচ্ছে না');return}
+var x=PX[it.pid]||['fruit'],kind=x[0],fr=['fruit','vine','tree'].indexOf(kind)>-1,ST=fr?FS:LS,pd=it.pd||it.id,age=Math.max(0,Math.round((day0(Date.now())-day0(pd))/D)),lh=(it.hs||[])[(it.hs||[]).length-1],
+lg=(it.log||[]).slice().sort(function(a,b){return b.ts-a.ts}).slice(0,5).map(function(g){return (g.t=='f'?'সার ':'ওষুধ ')+g.name+' ('+ago(g.ts)+')'}).join(', ')||'কিছু রেকর্ড নেই';
+SC.busy=true;SC.err='';render();
+var P='তুমি বাংলাদেশের ছাদবাগানের অভিজ্ঞ কৃষি পরামর্শদাতা। সঙ্গের ছবিতে ব্যবহারকারীর টবের "'+it.name+'" গাছটি দেখো। গাছের বয়স '+age+' দিন। এখন '+MN[new Date().getMonth()]+' মাস। ধাপের তালিকা (০ থেকে): '+ST.map(function(n,i){return i+'='+n}).join(', ')+'. শেষ জানা উচ্চতা: '+(lh?lh.h+' সেমি':'নেই')+'. আগে দেওয়া সার-ওষুধ: '+lg+'.\nনিয়ম: ছবি এই গাছের না হলে বা অস্পষ্ট হলে ok=false দাও ও note-এ বাংলায় কারণ লেখো। যা ছবিতে সত্যিই দেখা যায় শুধু তাই বলো। উচ্চতা ছবি দেখে মোটামুটি অনুমান, বোঝা না গেলে null। ফল না দেখা গেলে বা এ গাছে ফল ধরে না হলে fruits null। সার ও ওষুধ আগের রেকর্ড আর সময় মিলিয়ে দাও (সদ্য দেওয়া হলে আবার দিতে বলো না)। সমস্যা না থাকলে chem null। আগে জৈব উপায়, রাসায়নিকের শুধু নাম, মাত্রা নয়।\nশুধু এই JSON দাও, সব লেখা বাংলায়:\n{"ok":true,"note":"","stage":0,"height":null,"fruits":null,"health":"good|fair|poor","summary":"১-২ বাক্য","issues":["না থাকলে খালি"],"fert":{"name":"","why":""},"chem":null,"harvest":"আনুমানিক কত দিনে ফসল","tips":["২টা ছোট পরামর্শ"]}';
+try{var r=await sp.json(P,{images:[b],cache:false,modelTier:'default'});
+if(!r||r.ok===false){SC.err=(r&&typeof r.note=='string'&&r.note)?cn(r.note,200):'ছবি থেকে বোঝা গেল না। কাছ থেকে পরিষ্কার আলোয় আবার তুলুন।'}
+else{var st=Math.round(+r.stage);if(st>=0&&st<ST.length)it.st=st;var hh=+r.height;it.hs=it.hs||[];if(hh>0&&hh<1000)it.hs.push({ts:Date.now(),h:Math.round(hh),est:1});if(fr&&r.fruits!=null&&+r.fruits>=0&&+r.fruits<1000)it.fr=Math.round(+r.fruits);
+it.ph=(it.ph||[]);it.ph.unshift({ts:Date.now(),th:th});it.ph=it.ph.slice(0,6);
+function sg(o){return o&&o.name?{name:cn(o.name,60),why:cn(o.why,160)}:null}
+it.sc={ts:Date.now(),health:HL[r.health]?r.health:'fair',summary:cn(r.summary,300),issues:(Array.isArray(r.issues)?r.issues:[]).slice(0,4).map(function(v){return cn(v,120)}).filter(Boolean),fert:sg(r.fert),chem:sg(r.chem),harvest:cn(r.harvest,80),tips:(Array.isArray(r.tips)?r.tips:[]).slice(0,3).map(function(v){return cn(v,150)}).filter(Boolean)};save()}}
+catch(e){SC.err=ERR[e.code]||'এখন ছবি দেখা যায়নি, একটু পরে আবার চেষ্টা করুন।'}
+SC.busy=false;render()}
+function pint(){return S.pint===undefined?7:S.pint}
+function remItems(){var o=[],pi=pint(),fi=S.fint===undefined?20:S.fint;S.g.forEach(function(it){var pd=it.pd||it.id,age=Math.round((day0(Date.now())-day0(pd))/D),lp=(it.ph&&it.ph[0])?it.ph[0].ts:pd,dp=Math.round((day0(Date.now())-day0(lp))/D);
+if(pi>0&&dp>=pi)o.push({it:it,t:'p',x:'ছবি তোলা হয়নি '+bn(dp)+' দিন'});
+var lf=0;(it.log||[]).forEach(function(l){if(l.t=='f'&&l.ts>lf)lf=l.ts});var df=Math.round((day0(Date.now())-day0(lf||pd))/D);
+if(fi>0&&age>=10&&df>=fi)o.push({it:it,t:'f',x:lf?'শেষ সার দেওয়া হয়েছে '+bn(df)+' দিন আগে':'এখনো সার দেওয়ার রেকর্ড নেই'})});return o}
+function remN(){return remItems().length}
+var SET=false;
+function remBar(){var n=remN();return n?'<section class="card row"><div class="g"><div class="t">'+bn(n)+'টা রিমাইন্ডার আছে</div><div class="m">ছবি তোলা বা সার দেওয়ার সময় হয়েছে</div></div><button class="btn s" data-set="1" type="button">দেখুন</button></section>':''}
+var WX={clear:['পরিষ্কার','আবহাওয়া ভালো। নিয়মমতো পানি ও যত্ন চালিয়ে যান।'],rain:['বৃষ্টি','আজ বৃষ্টি হলে ওপর থেকে আলাদা পানি না দিলেও চলবে। টবের নিচের ছিদ্র পরিষ্কার রাখুন, পানি জমলে ফেলে দিন, আর ছত্রাকের রোগ নজরে রাখুন।'],hot:['প্রচণ্ড গরম','দুপুরে পানি দেবেন না। সকাল বা বিকালে পানি দিন, টব ছায়ায় সরান বা মাটিতে খড়ের আস্তরণ (মালচ) দিন।'],cold:['শীত-কুয়াশা','পানি কম দিন, দুপুরের দিকে দিন। কচি চারা কাপড় বা পলিথিনে হালকা ঢেকে রাখুন।'],wind:['ঝড়ো হাওয়া','লতা আর খুঁটি শক্ত করে বাঁধুন, ছোট টব দেয়ালের পাশে বা ভেতরে সরিয়ে রাখুন।']};
+function wxCard(){var k=S.wx&&S.wx.d==dstr(Date.now())?S.wx.v:'';
+return '<section class="card"><h2>আজকের আবহাওয়া</h2><div class="m" style="margin-bottom:6px">আজ কেমন, বেছে নিন (এটা নিজে বাছাই করতে হয়, সরাসরি আবহাওয়া পড়ে না)</div><div class="sy">'+Object.keys(WX).map(function(x){return '<button class="chip'+(k==x?' on':'')+'" data-wx="'+x+'" aria-pressed="'+(k==x)+'" type="button">'+WX[x][0]+'</button>'}).join('')+'</div>'+(k?'<div class="ex" style="background:color-mix(in srgb,var(--acc) 10%,var(--card))">'+ic('leaf',18)+'<span>'+WX[k][1]+'</span></div>':'')+'</section>'}
+function gcal(title,det,time,iv){var n=new Date(),p=function(x){return (x<10?'0':'')+x},hm=String(time).split(':'),st=new Date(n.getFullYear(),n.getMonth(),n.getDate(),+hm[0]||7,+hm[1]||0);if(st<=n)st=new Date(st.getTime()+D);var en=new Date(st.getTime()+15*60000),f=function(d){return d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+'T'+p(d.getHours())+p(d.getMinutes())+'00'};
+return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(title)+'&details='+encodeURIComponent(det)+'&dates='+f(st)+'/'+f(en)+'&recur='+encodeURIComponent('RRULE:FREQ=DAILY;INTERVAL='+iv)}
+function calSec(){var tm=S.rt||'07:00',pi=pint(),fi=S.fint===undefined?20:S.fint,L=[['রোজ সকালে বাগান দেখুন','পানি, পাতা আর পোকা দেখুন। RoofSprout অ্যাপ খুলে আজকের রিমাইন্ডার দেখুন।',1,'রোজ বাগান দেখা']];
+if(pi>0)L.push(['বাগানের ছবি তুলুন','গাছের ছবি তুলে RoofSprout-এ অবস্থা দেখুন।',pi,'প্রতি '+bn(pi)+' দিনে ছবি তোলা']);
+if(fi>0)L.push(['গাছে সার দেওয়ার সময়','কোন গাছে সার লাগবে RoofSprout-এ দেখুন।',fi,'প্রতি '+bn(fi)+' দিনে সার দেখা']);
+S.g.forEach(function(g){L.push([g.name+'-এ পানি দিন','প্রতি '+g.int+' দিনে পানি দিন।',g.int,g.name+': প্রতি '+bn(g.int)+' দিনে পানি'])});
+return '<section class="card"><h2>ফোনের ক্যালেন্ডারে অ্যালার্ম</h2><div class="m">অ্যাপ বন্ধ থাকলেও ফোনে মনে করাতে চাইলে নিচের বাটনে চেপে গুগল ক্যালেন্ডারে যোগ করুন। ক্যালেন্ডার অ্যাপই সময়মতো নোটিফিকেশন দেবে।</div><label class="m" for="rt" style="display:block;margin:10px 0 4px">রোজ কোন সময়ে</label><input class="tx" id="rt" type="time" value="'+tm+'" style="max-width:160px"><div class="items" style="gap:8px;margin-top:12px">'+L.map(function(x){return '<div class="lgi"><div class="g"><div class="t" style="white-space:normal">'+esc(x[3])+'</div></div><a class="btn s p" href="'+gcal(x[0],x[1],tm,x[2])+'" target="_blank" rel="noopener">যোগ করুন</a></div>'}).join('')+'</div><div class="m" style="margin-top:10px">পানি দেওয়ার তারিখ বদলালে ক্যালেন্ডারের সময় আপনা-আপনি বদলায় না। দরকারে পুরনোটা মুছে নতুন করে যোগ করুন।</div></section>'}
+var WC={sun:['প্রখর রোদ','sun'],cloud:['মেঘলা','cloud'],rain:['বৃষ্টি','rain'],fog:['কুয়াশা','fog'],wind:['ঝড়ো হাওয়া','wind']};
+if(!S.wd)S.wd={t:29,h:null,r:50,c:'sun',loc:'ঢাকা',d:'2026-11-09'};
+function wdKey(w){return w.c=='rain'?'rain':w.c=='fog'?'cold':w.c=='wind'?'wind':(w.c=='sun'&&w.t>=34)?'hot':'clear'}
+function wdCard(){var w=S.wd,c=WC[w.c]||WC.sun,old=w.d!=dstr(Date.now());
+return '<section class="card wdc c-'+w.c+'" data-wde="1" role="button" tabindex="0" aria-label="আবহাওয়া বদলান"><div class="wdt">'+ic(c[1],34)+'</div><div class="g"><div class="row" style="gap:8px;flex-wrap:wrap"><span class="wdn">'+bn(w.t)+'° সেলসিয়াস</span><span class="wdp">'+c[0]+'</span></div><div class="wdl">স্থান: '+esc(w.loc||'—')+' | আর্দ্রতা: '+(w.h==null?'—':bn(w.h)+'%')+' | বৃষ্টিপাত: '+(w.r==null?'—':bn(w.r)+'%')+'</div><div class="wdtip">'+(old?'<b style="color:var(--warn)">পুরনো তথ্য ('+fdt(new Date(w.d+'T12:00:00').getTime())+')। আজকের মান দিতে ছুঁয়ে আপডেট করুন।</b>':WX[wdKey(w)][1])+'</div></div><span class="wde" aria-hidden="true">'+ic('edit',18)+'</span></section>'}
+function wdIn(){var w=S.wd,c=WC[w.c]||WC.sun,old=w.d!=dstr(Date.now());return '<div class="wdi" data-wde="1" role="button" tabindex="0" aria-label="আবহাওয়া বদলান"><div class="wit">'+ic(c[1],26)+'</div><div class="g"><div class="row" style="gap:8px;flex-wrap:wrap"><b style="font-size:19px">'+bn(w.t)+'° সেলসিয়াস</b><span class="wip">'+c[0]+'</span></div><div class="wil">স্থান: '+esc(w.loc||'—')+' | আর্দ্রতা: '+(w.h==null?'—':bn(w.h)+'%')+' | বৃষ্টিপাত: '+(w.r==null?'—':bn(w.r)+'%')+'</div>'+(old?'<div class="wil" style="font-weight:700">পুরনো তথ্য ('+fdt(new Date(w.d+'T12:00:00').getTime())+'), ছুঁয়ে আপডেট করুন</div>':'')+'</div><span style="opacity:.85">'+ic('edit',16)+'</span></div>'}
+function wdIn2(){var w=S.wd,c=WC[w.c]||WC.sun,old=w.d!=dstr(Date.now());return '<div class="wdi" data-wde="1" role="button" tabindex="0" aria-label="'+bn(w.t)+' ডিগ্রি সেলসিয়াস, '+c[0]+'. আবহাওয়া বদলান"><div class="row" style="gap:6px"><span class="wit">'+ic(c[1],18)+'</span><b style="font-size:17px">'+bn(w.t)+'°সে.</b><span class="wip">'+c[0]+'</span></div><div class="wil">'+esc(w.loc||'—')+' | আর্দ্রতা '+(w.h==null?'—':bn(w.h)+'%')+' | বৃষ্টি '+(w.r==null?'—':bn(w.r)+'%')+'</div>'+(old?'<div class="wil" style="font-weight:700">পুরনো তথ্য, ছুঁয়ে আপডেট করুন</div>':'')+'</div>'}
+function openWx(){var w=S.wd;$('sheet').innerHTML='<div class="sov" data-close="1"></div><div class="spn" role="dialog" aria-modal="true" aria-label="আবহাওয়া বদলান"><div class="row"><h2 class="g" style="margin:0">আজকের আবহাওয়া</h2><button class="x" data-close="1" aria-label="বন্ধ করুন" type="button">'+ic('x')+'</button></div><div class="m">আপনার ফোনের আবহাওয়া অ্যাপ দেখে এখানে মান লিখুন। এই অ্যাপ নিজে থেকে আবহাওয়া আনতে পারে না।</div><div class="sy">'+Object.keys(WC).map(function(k){return '<button class="chip'+(w.c==k?' on':'')+'" data-wc="'+k+'" aria-pressed="'+(w.c==k)+'" type="button">'+WC[k][0]+'</button>'}).join('')+'</div><div class="row" style="gap:8px"><div class="g"><label class="m" for="wt">তাপমাত্রা (°সে.)</label><input class="tx" id="wt" type="number" inputmode="decimal" value="'+w.t+'"></div><div class="g"><label class="m" for="wh">আর্দ্রতা (%)</label><input class="tx" id="wh" type="number" inputmode="numeric" min="0" max="100" value="'+(w.h==null?'':w.h)+'"></div><div class="g"><label class="m" for="wr">বৃষ্টি (%)</label><input class="tx" id="wr" type="number" inputmode="numeric" min="0" max="100" value="'+(w.r==null?'':w.r)+'"></div></div><label class="m" for="wl">স্থান</label><input class="tx" id="wl" value="'+esc(w.loc||'')+'"><button class="btn p wide" id="wsave" type="button" style="min-height:52px">সেভ করুন</button></div>';$('sheet').className='on';WSEL=w.c}
+var WSEL='sun';
+function settings(){var r=remItems(),w=S.g.filter(function(x){return stat(x).l>=0}),fi=S.fint===undefined?20:S.fint;
+function chips(k,cur,arr){return '<div class="sy">'+arr.map(function(x){return '<button class="chip'+(cur==x[0]?' on':'')+'" data-'+k+'="'+x[0]+'" aria-pressed="'+(cur==x[0])+'" type="button">'+x[1]+'</button>'}).join('')+'</div>'}
+return '<button class="btn s" data-sback="1" type="button" style="margin-bottom:12px">'+ic('arrow',16)+'ফিরে যান</button><h1 style="font-size:22px;margin:0 0 12px">সেটিং</h1>'
++'<section class="card"><h2>রিমাইন্ডার</h2><div class="m" style="margin-bottom:6px">ছবি তোলার রিমাইন্ডার (কত দিন পরপর)</div>'+chips('pint',pint(),[[3,'৩ দিন'],[7,'৭ দিন'],[10,'১০ দিন'],[0,'বন্ধ']])
++'<div class="m" style="margin:14px 0 6px">সার দেওয়ার রিমাইন্ডার (শেষ সারের কত দিন পর)</div>'+chips('fint',fi,[[10,'১০ দিন'],[20,'২০ দিন'],[30,'৩০ দিন'],[0,'বন্ধ']])
++'<div class="m" style="margin-top:12px">পানির রিমাইন্ডার প্রতিটা গাছের নিজের সময় অনুযায়ী সবসময় চালু থাকে।</div></section>'
++'<section class="card"><h2>এখনকার রিমাইন্ডার ('+bn(r.length+w.length)+')</h2>'
++((r.length+w.length)?'<div class="items" style="gap:8px">'+w.map(function(x){return '<div class="lgi"><div class="av w" style="width:40px;height:40px;border-radius:14px">'+ic('drop')+'</div><div class="g"><div class="t">'+esc(x.name)+'</div><div class="m">পানি দিন · '+stat(x).t+'</div></div><button class="btn w s" data-wat="'+x.id+'" type="button">পানি দিলাম</button></div>'}).join('')
++r.map(function(q){return '<div class="lgi"><div class="av k k-'+(KD[q.it.pid]||'l')+'" style="width:40px;height:40px;border-radius:14px">'+(IM[q.it.pid]||(CUSTOM[q.it.pid]?shapeSvg(CUSTOM[q.it.pid]):''))+'</div><div class="g"><div class="t">'+esc(q.it.name)+'</div><div class="m">'+(q.t=='p'?'ছবি তুলে অবস্থা দেখার সময় · ':'সার দেওয়ার সময় · ')+q.x+'</div></div><button class="btn s p" data-og="'+q.it.id+'" type="button">'+(q.t=='p'?'ছবি তুলুন':'দেখুন')+'</button></div>'}).join('')+'</div>':'<div class="m">'+ic('ok',16)+' আজ কোনো রিমাইন্ডার নেই</div>')+'</section>'
++(ISN?nativeSec():calSec())+'<div class="m" style="text-align:center">অ্যাপের ভেতরের রিমাইন্ডার অ্যাপ খুললে তবেই দেখায়। বন্ধ থাকলে ফোনে নোটিফিকেশন আসে না।</div>'}
+var WRB=false,WRE='',DY={id:0,t:'',th:null};
+function wnow(x){x.last=Date.now();x.wl=(x.wl||[]);x.wl.push(Date.now());x.wl=x.wl.slice(-30)}
+function arr(a,n,l){return (Array.isArray(a)?a:[]).slice(0,n).map(function(v){return cn(v,l)}).filter(Boolean)}
+function med(u,cb){var im=new Image();im.onload=function(){var k=Math.min(1,320/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.6))};im.onerror=function(){cb(null)};im.src=u}
+function diarySec(it){if(DY.id!=it.id)DY={id:it.id,t:'',th:null};var L=(it.dy||[]).slice().sort(function(a,b){return b.ts-a.ts});
+return '<section class="card"><h2>গাছের ডায়েরি</h2><textarea class="tx" id="dytx" placeholder="আজ কী দেখলেন? যেমন: প্রথম ফুল এসেছে" style="min-height:84px">'+esc(DY.t)+'</textarea><div class="row" style="margin-top:8px;gap:8px"><label class="btn g" for="dyfile" style="cursor:pointer">'+ic('cam',18)+(DY.th?'ছবি যোগ হয়েছে':'ছবি যোগ করুন')+'</label><input id="dyfile" type="file" accept="image/*" style="position:absolute;opacity:0;width:1px;height:1px"><button class="btn p g" data-dysave="1" type="button">লিখে রাখুন</button></div>'+(DY.th?'<img class="dyi" src="'+DY.th+'" alt="যোগ করা ছবি">':'')
++L.map(function(e){return '<div class="dye"><div class="m">'+fdt(e.ts)+' · '+ago(e.ts)+'</div>'+(e.txt?'<div style="white-space:pre-wrap">'+esc(e.txt)+'</div>':'')+(e.th?'<img class="dyi" src="'+e.th+'" alt="ডায়েরির ছবি">':'')+'<button class="x" data-dydel="'+e.id+'" aria-label="মুছুন" type="button">'+ic('x',18)+'</button></div>'}).join('')+'</section>'}
+function wkData(n){n=n||7;var f=Date.now()-n*D;return S.g.map(function(g){var x=PX[g.pid]||['fruit'],fr=['fruit','vine','tree'].indexOf(x[0])>-1,ST=fr?FS:LS,lh=(g.hs||[])[(g.hs||[]).length-1],lg=(g.log||[]).filter(function(l){return l.ts>=f}),sc=g.sc&&g.sc.ts>=Date.now()-14*D?g.sc:null;
+return {নাম:g.name,বয়স_দিন:Math.max(0,Math.round((day0(Date.now())-day0(g.pd||g.id))/D)),ধাপ:ST[g.st||0],উচ্চতা_সেমি:lh?lh.h:null,ফল:fr?(g.fr||0):null,পানির_বিরতি_দিন:g.int,এই_সময়ে_পানি_দেওয়া:(g.wl||[]).filter(function(t){return t>=f}).length,এখন_পানি_বাকি:stat(g).l>=0,এই_সময়ে_সার:lg.filter(function(l){return l.t=='f'}).map(function(l){return l.name}),এই_সময়ে_ওষুধ:lg.filter(function(l){return l.t=='c'}).map(function(l){return l.name}),শেষ_ছবির_অবস্থা:sc?{সুস্থতা:sc.health,সারাংশ:sc.summary,সমস্যা:sc.issues}:null,ডায়েরি:(g.dy||[]).filter(function(e){return e.ts>=f&&e.txt}).slice(0,3).map(function(e){return e.txt.slice(0,100)})}})}
+async function genReport(){if(WRB)return;if(!S.g.length){toast('আগে বাগানে গাছ যোগ করুন');return}
+var sp=null;try{sp=await claude.use('sample')}catch(e){}
+if(!sp){toast('এআই এখানে চালু নেই');return}
+WRB=true;WRE='';render();var n=WPD();
+var wx=S.wx&&S.wx.d==dstr(Date.now())?WX[S.wx.v][0]:'জানা নেই';
+var P='তুমি RoofSprout অ্যাপের ছাদবাগান সহকারী। নিচের JSON-এ ব্যবহারকারীর বাগানের গত '+n+' দিনের তথ্য আছে। শুধু এই তথ্য দেখে '+PERIODS[S.wp||'w'][2]+' রিপোর্ট লেখো। তথ্যে নেই এমন কিছু বানিয়ে বলো না, তথ্য না থাকলে "রেকর্ড নেই" বলো। সহজ বাংলায়, উৎসাহ দিয়ে, সংক্ষেপে লেখো। রাসায়নিকের কথা এলে মাত্রা বলবে না। এখন '+MN[new Date().getMonth()]+' মাস, আজকের আবহাওয়া: '+wx+'।\nবাগানের তথ্য: '+JSON.stringify(wkData(n))+'\nশুধু এই JSON দাও:\n{"headline":"এক বাক্যে এই সময়ের সারকথা","mood":"good|fair|poor","wins":["ভালো যা হয়েছে, ২-৩টা"],"attention":[{"plant":"গাছের নাম","why":"কেন নজর দরকার","action":"কী করবেন"}],"next":["সামনের দিনগুলোর ৩-৪টা কাজ"],"tip":"একটা মৌসুমি পরামর্শ"}';
+try{var r=await sp.json(P,{cache:false,modelTier:'default'});S.wr={ts:Date.now(),h:cn(r.headline,200),mood:HL[r.mood]?r.mood:'fair',wins:arr(r.wins,3,160),att:(Array.isArray(r.attention)?r.attention:[]).slice(0,4).map(function(a){return {p:cn(a&&a.plant,40),w:cn(a&&a.why,160),a:cn(a&&a.action,160)}}).filter(function(a){return a.w}),nx:arr(r.next,4,140),tip:cn(r.tip,200)};S.wr.days=n;S.wr.from=day0(Date.now())-(n-1)*D;S.wr.to=day0(Date.now());S.wh=[S.wr].concat(S.wh||[]);var cc={};S.wh=S.wh.filter(function(x){var k=x.days||7;cc[k]=(cc[k]||0)+1;return cc[k]<=6});WRI=0;save()}
+catch(e){WRE=ERR[e.code]||'এখন রিপোর্ট বানানো যায়নি, একটু পরে আবার চেষ্টা করুন।'}
+WRB=false;render()}
+var WRI=0,WOPEN={},NOANIM=false;
+function rng(r,sh){var f=r.from||day0(r.ts)-6*D,t=r.to||day0(r.ts),o=sh?{day:'numeric',month:'short'}:{day:'numeric',month:'long'};return new Date(f).toLocaleDateString('bn-BD',o)+' – '+new Date(t).toLocaleDateString('bn-BD',sh?o:{day:'numeric',month:'long',year:'numeric'})}
+var PERIODS={w:[7,'সাপ্তাহিক','এক সপ্তাহের'],f:[14,'২ সপ্তাহ','দুই সপ্তাহের'],m:[30,'মাসিক','এক মাসের']};
+function WPD(){return PERIODS[S.wp||'w'][0]}
+function repBody(r){return (r.wins.length?'<div class="m">ভালো যা হয়েছে</div>'+r.wins.map(function(x){return '<div class="wri">'+ic('ok',18)+'<span>'+esc(x)+'</span></div>'}).join(''):'')
++(r.att.length?'<div class="m" style="margin-top:12px">নজর দেওয়া দরকার</div>'+r.att.map(function(a){return '<div class="ex" style="margin-top:8px">'+ic('warn',18)+'<span><b>'+esc(a.p)+'</b>: '+esc(a.w)+(a.a?'<br>করণীয়: '+esc(a.a):'')+'</span></div>'}).join(''):'')
++(r.nx.length?'<div class="m" style="margin:12px 0 6px">সামনের কাজ (করা হলে টিক দিন)</div><div class="steps2">'+r.nx.map(function(x){return '<label class="ck"><input class="cks" type="checkbox"><span>'+esc(x)+'</span></label>'}).join('')+'</div>':'')
++(r.tip?'<div class="m" style="margin-top:12px">মৌসুমি পরামর্শ</div><div>'+esc(r.tip)+'</div>':'')}
+function repView(){var wp=S.wp||'w',days=PERIODS[wp][0],all=(S.wh&&S.wh.length)?S.wh:(S.wr?[S.wr]:[]),L=all.filter(function(x){return (x.days||7)==days});
+return '<h1 style="font-size:22px;margin:0 0 12px">রিপোর্ট</h1><div class="seg" role="tablist">'+Object.keys(PERIODS).map(function(k){return '<button class="'+(wp==k?'on':'')+'" data-wp="'+k+'" type="button">'+PERIODS[k][1]+'</button>'}).join('')+'</div>'
++'<section class="card"><div class="m">গত '+bn(days)+' দিনের কাজ আর সামনের করণীয়, এআই সাজিয়ে দেবে। যত বেশি পানি, সার, ছবি ও ডায়েরি লিখবেন, রিপোর্ট তত ভালো হবে।</div>'+(WRB?'<div class="m" style="margin:10px 0">রিপোর্ট বানাচ্ছি, ১০-২০ সেকেন্ড লাগতে পারে…</div>':'')+(WRE?'<div class="ex">'+ic('warn',18)+'<span>'+esc(WRE)+'</span></div>':'')
++'<button class="btn p wide" data-wr="1" type="button" style="margin-top:12px"'+(WRB?' disabled':'')+'>'+ic('leaf')+'নতুন '+PERIODS[wp][2]+' রিপোর্ট বানান</button></section>'
++(L.length?L.map(function(r,i){var h=HL[r.mood]?HL[r.mood]:HL.fair,op=WOPEN[r.ts]===true;return '<div class="rcard'+(op?' open':'')+'"><button class="rh" data-rx="'+r.ts+'" aria-expanded="'+op+'" type="button"><div class="g" style="text-align:left"><div class="m">'+ic('chart',14)+' '+rng(r)+' · '+ago(r.ts)+' বানানো</div><div class="cl">'+esc(r.h)+'</div></div><span class="sev '+h[0]+'">'+h[1]+'</span><span class="chev">›</span></button>'+(op?'<div class="bd2">'+repBody(r)+'</div>':'')+'</div>'}).join(''):'<section class="card"><div class="empty">'+ic('chart',44)+'<b>এখনো কোনো রিপোর্ট নেই</b><span>উপরের বাটনে চেপে প্রথম রিপোর্ট বানান</span></div></section>')}
+function wrCard(){var L=(S.wh&&S.wh.length)?S.wh:(S.wr?[S.wr]:[]),r=L[WRI]||L[0]||null,h=r&&HL[r.mood]?HL[r.mood]:HL.fair;
+return '<section class="card"><div class="dh"><div class="av">'+ic('chart',24)+'</div><div class="g"><h2 style="margin:0">সাপ্তাহিক রিপোর্ট</h2><div class="m">গত ৭ দিনের কাজ আর সামনের করণীয়, এআই সাজিয়ে দেবে</div></div></div>'
++(r&&!WRB?(L.length>1?'<div class="chips" style="margin-top:6px">'+L.map(function(x,i){return '<button class="chip'+(i==WRI?' on':'')+'" data-wri="'+i+'" type="button">'+rng(x,1)+'</button>'}).join('')+'</div>':'')+'<div class="rng">'+ic('chart',16)+'<b>'+rng(r)+'</b></div><div class="row" style="gap:8px;margin-top:4px"><span class="sev '+h[0]+'">'+h[1]+'</span><span class="m">'+ago(r.ts)+' বানানো</span></div><div class="wrh">'+esc(r.h)+'</div>'
++(r.wins.length?'<div class="m">ভালো যা হয়েছে</div>'+r.wins.map(function(x){return '<div class="wri">'+ic('ok',18)+'<span>'+esc(x)+'</span></div>'}).join(''):'')
++(r.att.length?'<div class="m" style="margin-top:12px">নজর দেওয়া দরকার</div>'+r.att.map(function(a){return '<div class="ex" style="margin-top:8px">'+ic('warn',18)+'<span><b>'+esc(a.p)+'</b>: '+esc(a.w)+(a.a?'<br>করণীয়: '+esc(a.a):'')+'</span></div>'}).join(''):'')
++(r.nx.length?'<div class="m" style="margin:12px 0 6px">সামনের সপ্তাহের কাজ (করা হলে টিক দিন)</div><div class="steps2">'+r.nx.map(function(x){return '<label class="ck"><input class="cks" type="checkbox"><span>'+esc(x)+'</span></label>'}).join('')+'</div>':'')
++(r.tip?'<div class="m" style="margin-top:12px">মৌসুমি পরামর্শ</div><div>'+esc(r.tip)+'</div>':''):'')
++(WRB?'<div class="m" style="margin:10px 0">রিপোর্ট বানাচ্ছি, ১০-২০ সেকেন্ড লাগতে পারে…</div>':'')+(WRE?'<div class="ex">'+ic('warn',18)+'<span>'+esc(WRE)+'</span></div>':'')
++'<button class="btn p wide" data-wr="1" type="button" style="margin-top:12px"'+(WRB?' disabled':'')+'>'+ic('leaf')+(r?'নতুন করে বানান':'এ সপ্তাহের রিপোর্ট বানান')+'</button><div class="m" style="margin-top:8px">রিপোর্ট ভালো হয় যত বেশি পানি, সার, ছবি ও ডায়েরি লিখে রাখবেন।</div></section>'}
+function seasonLabel(m){if(!m||!m.length||m.length>=8)return 'বারোমাসি';var w=0,s2=0;m.forEach(function(x){if(x>=10||x<=2)w++;if(x>=3&&x<=9)s2++});if(w>s2)return 'শীতকালীন';var r=m.every(function(x){return x>=6&&x<=9});return r?'বর্ষাকালীন':'গ্রীষ্মকালীন'}
+function gcard(x){var st=stat(x),ds=st.l+x.int,due=st.l>=0,mo=Math.max(0,Math.min(100,Math.round(100-ds/x.int*70))),lv=due?'r':mo<70?'a':'g',p=PD[x.pid]||[];
+return '<div class="gc gk" role="button" tabindex="0" data-gid="'+x.id+'" aria-label="'+esc(x.name)+' অবস্থা ও ইতিহাস"><div class="row" style="align-items:flex-start">'+pic(x.pid)+'<span class="gp '+lv+'">'+(due?'সেচ প্রয়োজন':mo<70?'আংশিক আর্দ্র':'পর্যাপ্ত আর্দ্র')+'</span></div><div class="gn">'+esc(x.name)+'</div><div class="gt"><span class="tg">'+seasonLabel(p[2])+'</span><span class="tg">'+ic('sun',13)+(p[4]||'')+'</span></div><div class="row" style="justify-content:space-between;gap:8px"><span class="m">মাটির আর্দ্রতা</span><b class="gv '+lv+'">'+bn(mo)+'%</b></div><div class="gb" role="img" aria-label="মাটির আর্দ্রতা '+bn(mo)+'%"><i class="'+lv+'" style="width:'+mo+'%"></i></div><div class="gbt"><button class="gw" data-wat="'+x.id+'" type="button">'+ic('drop',15)+'সেচ দিন</button><button class="gi" data-gi="'+x.id+'" aria-label="'+esc(x.name)+' বিস্তারিত" type="button">i</button></div></div>'}
+function gdetail(id){var it=gitem(id);if(!it){GD=null;return garden()}
+var p=PD[it.pid]||[],x=PX[it.pid]||['fruit','','','',''],kind=x[0],t=CUSTOM[it.pid]||TPL[kind]||TPL.leaf,fr=['fruit','vine','tree'].indexOf(kind)>-1,ST=fr?FS:LS;
+it.log=it.log||[];it.hs=it.hs||[];
+var pd=it.pd||it.id,age=Math.max(0,Math.round((day0(Date.now())-day0(pd))/D)),hmax=parseD(x[4]),pct=hmax?Math.min(100,age/hmax*100):null,stg=it.st||0,s2=stat(it),lh=it.hs[it.hs.length-1],
+chems=[];t.p.forEach(function(r){r[2].forEach(function(c){if(chems.indexOf(c)<0&&c!='সাধারণত লাগে না')chems.push(c)})});chems=['নিম তেল (জৈব)','সাবান-পানি (জৈব)'].concat(chems);
+return '<button class="btn s" data-gback="1" type="button" style="margin-bottom:12px">'+ic('arrow',16)+'ফিরে যান</button>'
++'<section class="card"><div class="row" style="gap:14px">'+pic(it.pid,true)+'<div class="g"><h2 style="margin:0;font-size:22px">'+esc(it.name)+'</h2><div class="m">'+(age==0?'আজ লাগানো হয়েছে':bn(age)+' দিন আগে লাগানো')+'</div></div></div>'
++'<div class="kv" style="margin-top:12px"><div class="kvi"><span class="m">বয়স</span><b>'+bn(age)+' দিন</b></div><div class="kvi"><span class="m">পানি</span><b>'+s2.t+'</b></div>'+(pct!=null?'<div class="kvi"><span class="m">ফসলের পথে</span><b>'+bn(pct)+'%</b></div>':'')+'</div>'
++(pct!=null?'<div class="wb" role="img" aria-label="ফসলের পথে '+bn(pct)+'%"><i class="ac" style="width:'+pct+'%"></i></div><div class="m" style="margin-top:4px">'+(age>=hmax?'ফসল তোলার সময় হয়ে গেছে বা পার হয়ে যাচ্ছে':'ফসল আসতে আনুমানিক '+bn(hmax-age)+' দিন বাকি')+' (গড় হিসাব: '+x[4]+')</div>':'')+'</section>'
++scanCard(it,ST,fr)+'<section class="card"><h2>বর্তমান অবস্থা</h2>'+curSum(it,ST,fr)+'<details class="lgf" style="margin-top:12px"><summary>হাতে ঠিক করুন</summary><div class="m" style="margin:8px 0 6px">এখন গাছ কোন ধাপে?</div><div class="sy">'+ST.map(function(n,i){return '<button class="chip'+(i==stg?' on':'')+'" data-gs="'+i+'" aria-pressed="'+(i==stg)+'" type="button">'+n+'</button>'}).join('')+'</div>'
++'<div class="m" style="margin:14px 0 6px">গাছ কত বড় হয়েছে</div>'+(lh?'<div class="t" style="font-size:20px">'+bn(lh.h)+' সেমি <span class="m">('+ago(lh.ts)+' মাপা)</span></div>':'<div class="m">এখনো মাপা হয়নি</div>')+spark(it.hs)
++'<div class="row" style="margin-top:8px"><input class="tx" id="gh" type="number" inputmode="decimal" min="0" placeholder="উচ্চতা (সেমি)" aria-label="উচ্চতা সেমিতে" style="flex:1"><button class="btn p" data-ghs="1" type="button">মাপ লিখুন</button></div>'
++(fr?'<div class="m" style="margin:14px 0 6px">ফলের অবস্থা</div><div class="stepper"><button class="btn" data-fr="-1" type="button" aria-label="কমান">−</button><b>'+bn(it.fr||0)+'</b><button class="btn" data-fr="1" type="button" aria-label="বাড়ান">+</button><span class="t">'+((it.fr||0)>0?'টা ফল ধরেছে':'এখনো ফল ধরেনি')+'</span></div>':'')
++'<label class="m" for="gpd" style="display:block;margin:14px 0 4px">লাগানোর তারিখ</label><input class="tx" id="gpd" type="date" max="'+dstr(Date.now())+'" value="'+dstr(pd)+'"></details></section>'
++lsec(it,'f',t.fn,'সার দেওয়ার ইতিহাস')+lsec(it,'c',chems,'কীটনাশক ও ওষুধের ইতিহাস')
++diarySec(it)+'<div class="row" style="gap:8px;margin-bottom:10px"><button class="btn g" data-godet="'+it.pid+'" type="button">চাষের নিয়ম দেখুন</button><button class="btn g" data-dxp="'+it.pid+'" type="button">'+ic('cam')+'রোগ পরীক্ষা</button></div><button class="btn wide" data-rm="'+it.id+'" type="button">'+ic('x',18)+'বাগান থেকে বাদ দিন</button>'}
+function plant(p){var k=KD[p[0]]||'l',has=S.g.some(function(x){return x.pid==p[0]});return '<div class="pc" role="button" tabindex="0" data-id="'+p[0]+'" aria-label="'+p[1]+' বিস্তারিত">'+pic(p[0])+'<div class="t">'+p[1]+'</div><div class="m">'+ic('drop',14)+'প্রতি '+bn(p[3])+' দিনে · '+p[4]+'</div><div class="tp">'+p[5]+'</div><div class="dt">বিস্তারিত ›</div>'+(has?'<div class="added">'+ic('ok',18)+'বাগানে আছে</div>':'<button class="btn s wide" data-add="'+p[0]+'" type="button" aria-label="'+p[1]+' বাগানে যোগ করুন">'+ic('plus',16)+'বাগানে যোগ</button>')+'</div>'}
+var DECO='<svg class="deco" viewBox="0 0 120 120" width="150" height="150" aria-hidden="true"><path d="M14 112C14 58 48 22 108 16c0 58-32 96-94 96z" fill="var(--onacc)" opacity=".13"/><path d="M14 112C44 80 72 54 104 26" stroke="var(--onacc)" stroke-width="3" fill="none" opacity=".3" stroke-linecap="round"/></svg>';
+function cal(){if(DET)return detail(DET);var m=S.mon,nx=(m+1)%12,se=SE[SM[m]],now=PL.filter(function(p){return p[2].indexOf(m+1)>-1&&!CUSTOM[p[0]]}),nxt=PL.filter(function(p){return p[2].indexOf(nx+1)>-1&&p[2].indexOf(m+1)<0&&!CUSTOM[p[0]]});
+return '<div class="mg" role="tablist">'+MN.map(function(n,i){return '<button class="chip'+(i==m?' on':'')+'" data-mon="'+i+'" type="button">'+n+'</button>'}).join('')+'</div><div class="m" style="margin:-2px 0 10px;text-align:center">মাস বদলাতে বাঁয়ে-ডানে সোয়াইপ করুন</div><section class="season">'+DECO+'<div class="m2">'+MN[m]+' · '+BM[m]+'</div><div class="sn">'+se[0]+'</div><div class="sd">'+se[1]+'</div>'+wdIn2()+'<div class="pills"><span class="pl">'+ic('leaf',16)+bn(now.length)+'টা গাছ লাগানোর সময়</span><span class="pl">'+ic('pot',16)+'আমার বাগানে '+bn(S.g.length)+'টা</span></div></section><div class="sh">এ মাসে লাগান</div>'+(now.length?'<div class="pg">'+now.map(plant).join('')+'</div>':'<section class="card m">এ মাসে নতুন কিছু লাগানোর মতো নেই। পরিচর্যায় মন দিন।</section>')+(nxt.length?'<div class="sh">আসছে মাসে শুরু করুন</div><div class="pg">'+nxt.map(plant).join('')+'</div>':'')+((S.cp&&S.cp.length)?'<div class="sh">আমার যোগ করা</div><div class="pg">'+S.cp.map(function(c){return plant(PD[c.id])}).join('')+'</div>':'')+'<div class="m" style="text-align:center;margin-top:6px">এটা সাধারণ নির্দেশিকা। এলাকা ও জাতভেদে কিছুটা আগে-পরে হতে পারে। নিশ্চিত হতে স্থানীয় নার্সারি বা কৃষি কর্মকর্তার পরামর্শ নিন।</div>'}
+function garden(){if(GD)return gdetail(GD);var g=S.g.slice().sort(function(a,b){return stat(b).l-stat(a).l}),n=dueN(),t=g.length;
+if(!t)return '<section class="card"><div class="empty">'+ic('pot',48)+'<b>বাগানে এখনো কোনো গাছ নেই</b><span>ক্যালেন্ডার থেকে গাছ যোগ করলে পানি দেওয়ার হিসাব এখানে আসবে</span><button class="btn p" data-t="cal" type="button">ক্যালেন্ডার দেখুন</button></div></section>';
+var C=2*Math.PI*34,f=(t-n)/t;
+return '<section class="ghero'+(n?' due':'')+'"><div class="ring2"><svg width="84" height="84" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="34" fill="none" stroke="var(--soft)" stroke-width="9"/><circle cx="42" cy="42" r="34" fill="none" stroke="'+(n?'var(--wat)':'var(--acc)')+'" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+(f*C)+' '+C+'"/></svg><b>'+bn(t-n)+'/'+bn(t)+'</b></div><div class="g"><div class="t" style="font-size:18px">'+(n?'আজ '+bn(n)+'টা গাছে পানি লাগবে':'সব গাছ ঠিক আছে')+'</div><div class="m">'+(n?'পানি দিয়ে নিচে চিহ্ন দিন':'আজ আর পানি দিতে হবে না')+'</div>'+(n?'<button class="btn w s" id="all" type="button" style="margin-top:8px">'+ic('drop',16)+'সবগুলোতে দিলাম</button>':'')+'</div></section>'
++wxCard()+remBar()+'<div class="gg">'+g.map(gcard).join('')+'</div>'+'<div class="m" style="text-align:center;margin-top:8px">মাটির আর্দ্রতা শেষ পানি দেওয়ার সময় থেকে হিসাব করা আনুমানিক মান, সেন্সরের মাপ নয়। অ্যাপ খুললেই কোন গাছে আজ পানি লাগবে তা দেখাবে। ফোনে নোটিফিকেশন পাঠানো মোবাইল অ্যাপ ভার্সনে আসবে।</div>'}
+var DX={plant:'',pn:'',sy:[],res:null,busy:false},TH=null,TMR=null,SYS=['পাতা হলুদ','বাদামী দাগ','কুঁকড়ানো পাতা','পাতা ঝরছে','নেতিয়ে পড়ছে','সাদা গুঁড়ো','পোকা দেখা যাচ্ছে','ফুল-ফল ঝরছে'],SVL={low:'হালকা',medium:'মাঝারি',high:'গুরুতর'};
+function progHtml(n){return '<section class="card" id="prog"><h2>পরীক্ষা চলছে</h2><div class="steps">'+['ছবি ও লক্ষণ পড়ছি','সমস্যা চিনছি','সমাধান সাজাচ্ছি'].map(function(t,i){return '<div class="stp'+(i<n?' done':i==n?' on':'')+'"><span class="d">'+(i<n?'✓':bn(i+1))+'</span>'+t+'</div>'}).join('')+'</div></section>'}
+function resCard(r){
+if(!r.ok)return '<section class="card rc"><div class="row"><div class="av">'+ic('cam',24)+'</div><div class="g"><div class="t" style="font-size:17px">পরীক্ষা করা যায়নি</div><div class="m">'+esc(r.note||'আরেকটা পরিষ্কার ছবি দিন')+'</div></div></div><div class="row" style="margin-top:12px"><button class="btn g" id="newdx" type="button">আবার চেষ্টা করুন</button></div></section>';
+var cf=Math.max(0,Math.min(100,+r.confidence||0)),C=2*Math.PI*22,sv=SVL[r.severity]?r.severity:'medium';
+return '<section class="card rc"><div class="row">'+(r.thumb?'<img class="th" src="'+r.thumb+'" alt="">':'<div class="av">'+ic('leaf',24)+'</div>')+'<div class="g"><div class="m">'+esc(r.plant||'গাছ')+'</div><div class="t" style="font-size:18px;line-height:1.3">'+esc(r.problem||'')+'</div></div><div class="cf" style="width:56px;height:56px"><svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="22" fill="none" stroke="var(--soft)" stroke-width="6"/><circle cx="28" cy="28" r="22" fill="none" stroke="var(--acc)" stroke-width="6" stroke-linecap="round" stroke-dasharray="'+(cf/100*C)+' '+C+'"/></svg><b style="font-size:13px">'+bn(cf)+'%</b></div></div>'
++'<div class="row" style="margin:12px 0;gap:8px"><span class="sev '+sv+'">তীব্রতা: '+SVL[sv]+'</span><span class="m">নিশ্চয়তা '+bn(cf)+'%</span></div>'
++'<div class="m">কারণ</div><div style="margin-bottom:14px">'+esc(r.cause||'')+'</div>'
++'<div class="m" style="margin-bottom:6px">সমাধানের ধাপ (করা হলে টিক দিন)</div><div class="steps2">'+(r.steps||[]).map(function(x){return '<label class="ck"><input class="cks" type="checkbox"><span>'+esc(x)+'</span></label>'}).join('')+'</div>'
++((r.prevent&&r.prevent.length)?'<div class="m" style="margin:14px 0 4px">ভবিষ্যতে এড়াতে</div><ul class="pv2">'+r.prevent.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>':'')
++(r.expert?'<div class="ex">'+ic('warn',18)+'<span>'+esc(r.expert)+'</span></div>':'')
++'<div class="row" style="margin-top:14px"><button class="btn g" id="newdx" type="button">নতুন পরীক্ষা</button></div></section>'}
+function hist(){var h=S.dx||[];if(!h.length)return '';return '<section class="card"><h2>আগের পরীক্ষা</h2><div class="items">'+h.map(function(x){var sv=SVL[x.severity]?x.severity:'medium';return '<button class="hi" data-h="'+x.id+'" type="button">'+(x.thumb?'<img class="th" src="'+x.thumb+'" alt="">':'<div class="av">'+ic('leaf',24)+'</div>')+'<div class="g"><div class="t">'+esc(x.problem||'')+'</div><div class="m">'+esc(x.plant||'')+' · '+new Date(x.ts).toLocaleDateString('bn-BD',{day:'numeric',month:'short'})+'</div></div><span class="sev '+sv+'">'+SVL[sv]+'</span></button>'}).join('')+'</div></section>'}
+var DM='dx',CH=[],ABUSY=false,AIMG=null,AQV='';
+function doctor(){return '<div class="seg" role="tablist"><button class="'+(DM=='dx'?'on':'')+'" data-dm="dx" type="button">'+ic('cam',18)+'রোগ পরীক্ষা</button><button class="'+(DM=='ask'?'on':'')+'" data-dm="ask" type="button">'+ic('leaf',18)+'সাজেশন</button></div>'+(DM=='ask'?askView():doctor0())}
+function askView(){var nm=S.g.length?S.g[0].name:'',qs=['এ মাসে ছাদে কী লাগানো ভালো?','টবের মাটি কীভাবে তৈরি করব?','কম রোদে কোন গাছ ভালো হয়?','ঘরে জৈব সার কীভাবে বানাব?','গাছে সাদা মাছি বা পিঁপড়া হলে কী করব?'];if(nm)qs.unshift('আমার '+nm+' গাছের যত্ন কীভাবে নেব?');
+return '<section class="card"><div class="dh"><div class="av">'+ic('leaf',24)+'</div><div class="g"><h2 style="margin:0">সাজেশন</h2><div class="m">ছাদবাগান নিয়ে যা জানতে চান, জিজ্ঞেস করুন। ছবি যোগ করেও প্রশ্ন করতে পারেন।</div></div>'+(CH.length&&!ABUSY?'<button class="btn s" id="aclr" type="button">মুছুন</button>':'')+'</div>'+(CH.length?'':'<div class="m" style="margin-bottom:8px">এগুলো জিজ্ঞেস করতে পারেন</div><div class="sy">'+qs.map(function(q){return '<button class="chip" data-q="'+esc(q)+'" type="button">'+esc(q)+'</button>'}).join('')+'</div>')+'<div id="chat" class="chat">'+CH.map(function(m){return '<div class="bub '+m.r+'">'+(m.th?'<img class="bimg" src="'+m.th+'" alt="পাঠানো ছবি">':'')+esc(m.t)+'</div>'}).join('')+'</div></section><div class="askbar">'+(AIMG?'<div class="apw"><img src="'+AIMG.th+'" alt="যোগ করা ছবি"><button class="apx" data-arm="1" aria-label="ছবি সরান" type="button">×</button></div>':'')+(ABUSY?'':'<label class="ib" for="afile" aria-label="ছবি যোগ করুন" style="flex:none;cursor:pointer;width:44px;height:44px">'+ic('cam',20)+'</label><input id="afile" type="file" accept="image/*" style="position:absolute;opacity:0;width:1px;height:1px">')+'<input class="tx" id="aq" placeholder="'+(AIMG?'ছবি নিয়ে কী জানতে চান?':'আপনার প্রশ্ন লিখুন')+'" aria-label="প্রশ্ন" value="'+esc(AQV)+'" style="min-height:44px;border-radius:16px" autocomplete="off">'+(ABUSY?'<button class="btn" id="astop" type="button">থামান</button>':'<button class="btn p" id="asend" type="button" aria-label="পাঠান">'+ic('send',20)+'</button>')+'</div><div class="m" style="text-align:center;margin-top:10px">এআই-এর উত্তর ভুলও হতে পারে। রাসায়নিক ব্যবহারে প্যাকেটের নির্দেশ মানুন।</div>'}
+async function askQ(q){q=(q||'').trim();if(!q&&AIMG)q='এই ছবিটা দেখে বলুন এটা কী, কেমন অবস্থায় আছে, আর কী করণীয়।';if(!q||ABUSY)return;
+var sp=null;try{sp=await claude.use('sample')}catch(e){}
+if(!sp){toast('এআই এখানে চালু নেই');return}
+var h=CH.slice(-6).map(function(m){return (m.r=='u'?'ব্যবহারকারী: ':'সহকারী: ')+m.t}).join('\n');
+var img=AIMG,im=false;if(img){try{var l=await sp.limits();im=!!(l&&l.images)}catch(e){}if(!im){toast('এখানে ছবি পাঠানো যাচ্ছে না');return}}
+var a={r:'a',t:'ভাবছি…'};CH.push({r:'u',t:q,th:img?img.th:null});CH.push(a);AIMG=null;AQV='';ABUSY=true;render();
+var els=document.querySelectorAll('#chat .bub'),el=els[els.length-1];if(el&&el.scrollIntoView)el.scrollIntoView({block:'center',behavior:'smooth'});
+CTL=new AbortController();
+var P='তুমি RoofSprout অ্যাপের ছাদবাগান সহকারী, বাংলাদেশের ছাদবাগান বিষয়ে অভিজ্ঞ। সহজ বাংলায় ছোট ও কাজের উত্তর দাও (সর্বোচ্চ ১৮০ শব্দ)। এখন '+MN[new Date().getMonth()]+' মাস। ব্যবহারকারীর বাগানের গাছ: '+(S.g.length?S.g.map(function(g){return g.name}).join(', '):'এখনো নেই')+'।\nনিয়ম: তারকা বা # চিহ্ন ব্যবহার করবে না, দরকারে ১) ২) ধাপে লিখবে। জানা না থাকলে বা নিশ্চিত না হলে সেটা বলবে, বানিয়ে বলবে না। রাসায়নিক কীটনাশক বা সারের প্রসঙ্গ এলে আগে জৈব উপায় বলবে, শুধু নাম বলবে, মাত্রা বলবে না, আর প্যাকেটের নির্দেশ ও কৃষি কর্মকর্তার পরামর্শ মানতে বলবে। ছাদবাগান বা গাছপালার বাইরের প্রশ্ন এলে নম্রভাবে জানাবে যে তুমি ছাদবাগানের সহকারী।\nআগের কথাবার্তা:\n'+(h||'নেই')+'\nনতুন প্রশ্ন: '+q+(img?'\nসঙ্গে একটা ছবি আছে। ছবি দেখে উত্তর দাও। ছবি গাছপালার না হলে সেটা বলো, বানিয়ে বলো না।':'');
+try{await sp(P,{images:img&&im?[img.b]:undefined,signal:CTL.signal,cache:false,modelTier:'default',onText:function(x){a.t=x.text;if(el)el.textContent=x.text}})}
+catch(e){if(e.code=='cancelled'){if(a.t=='ভাবছি…')a.t='থামানো হয়েছে।'}else a.t=(a.t&&a.t!='ভাবছি…'?a.t+'\n\n':'')+(ERR[e.code]||'এখন উত্তর আনা যায়নি, একটু পরে আবার চেষ্টা করুন।')}
+ABUSY=false;render();var e2=document.querySelectorAll('#chat .bub');if(e2.length&&e2[e2.length-1].scrollIntoView)e2[e2.length-1].scrollIntoView({block:'start',behavior:'smooth'})}
+function doctor0(){var names=[];S.g.forEach(function(x){if(names.indexOf(x.name)<0)names.push(x.name)});
+return '<section class="card"><div class="dh"><div class="av">'+ic('cam',24)+'</div><div class="g"><h2 style="margin:0">গাছের ডাক্তার</h2><div class="m">ছবি ও লক্ষণ দিন, এআই রোগ চিনে সমাধান বলবে</div></div></div>'
++'<label class="vf'+(PRE?' has':'')+'" id="vf" for="file"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i>'+(PRE?'<img src="'+PRE+'" alt="আপনার তোলা ছবি"><span class="chg">ছবি বদলান</span>':'<div class="ci">'+ic('cam',28)+'</div><b>ছবি তুলুন বা বাছুন</b><div class="m">আক্রান্ত পাতা কাছ থেকে, দিনের আলোতে</div>')+'<input id="file" type="file" accept="image/*" style="position:absolute;opacity:0;width:1px;height:1px"></label>'
++'<div class="lb2">কোন গাছ?</div>'+(names.length?'<div class="sy">'+names.map(function(n){return '<button class="chip'+(DX.plant==n?' on':'')+'" data-pl="'+esc(n)+'" type="button">'+esc(n)+'</button>'}).join('')+'</div>':'')+'<input class="tx" id="pn" placeholder="'+(names.length?'অথবা অন্য গাছের নাম':'গাছের নাম, যেমন: টমেটো')+'" value="'+esc(DX.pn)+'" style="margin-top:8px">'
++'<div class="lb2">কী লক্ষণ দেখছেন?</div><div class="sy">'+SYS.map(function(n,i){var on=DX.sy.indexOf(i)>-1;return '<button class="chip'+(on?' on':'')+'" data-sy="'+i+'" aria-pressed="'+on+'" type="button">'+n+'</button>'}).join('')+'</div><input class="tx" id="sym" placeholder="আরও কিছু লিখতে চাইলে এখানে" value="'+esc(SYM)+'" style="margin-top:8px">'
++'<div class="row" style="margin-top:16px"><button class="btn p g" id="dx" type="button" style="min-height:52px;font-size:16px"'+(DX.busy?' disabled':'')+'>'+ic('leaf')+(DX.busy?'পরীক্ষা চলছে…':'রোগ চিনুন')+'</button><button class="btn" id="stop" type="button" style="'+(DX.busy?'':'display:none')+'">থামান</button></div></section>'
++'<div id="dxres">'+(DX.busy?progHtml(0):DX.res?resCard(DX.res):'')+'</div>'+hist()
++'<section class="card"><h2>সাধারণ সমস্যা ও সমাধান</h2>'+CM.map(function(c){return '<details><summary>'+c[0]+'</summary><p>'+c[1]+'</p></details>'}).join('')+'</section><div class="m" style="text-align:center">এআই-এর অনুমান ভুলও হতে পারে। কীটনাশক দিলে প্যাকেটের নির্দেশ মেনে চলুন।</div>'}
+function showOut(t){var o=$('outt'),i=t.indexOf('\n');o.innerHTML='<div class="ot"></div><div class="ob"></div>';o.firstChild.textContent=i<0?t:t.slice(0,i);o.lastChild.textContent=i<0?'':t.slice(i+1).replace(/^\s+/,'')}
+function render(){var n=dueN()+remN();$('setb').innerHTML=ic('set',20)+(n?'<span class="dotb"></span>':'');$('fabc').innerHTML=(S.tab=='cal'&&!DET&&!SET)?'<button class="fab2" id="addp" aria-label="নতুন সবজি বা ফল যোগ করুন" type="button">'+ic('plus',28)+'</button>':'';$('nav').innerHTML=[['cal','ক্যালেন্ডার','leaf'],['garden','আমার বাগান','pot'],['rep','রিপোর্ট','chart'],['doc','ডাক্তার','cam']].map(function(x){return '<button data-t="'+x[0]+'" aria-label="'+x[1]+'" class="'+(S.tab==x[0]&&!SET?'on':'')+'" type="button">'+ic(x[2])+'<span class="lb">'+x[1]+'</span>'+(x[0]=='garden'&&n?'<span class="bd" aria-label="'+bn(n)+'টা গাছে পানি লাগবে">'+bn(n)+'</span>':'')+'</button>'}).join('');$('app').innerHTML='<div class="view'+(NOANIM?' na':'')+'">'+(SET?settings:{cal:cal,garden:garden,rep:repView,doc:doctor}[S.tab])()+'</div>';var a=document.querySelector('.mg .chip.on');if(a){var mg=a.parentNode;mg.scrollLeft=a.offsetLeft-(mg.clientWidth-a.offsetWidth)/2}}
+function shrink(f,cb){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var k=Math.min(1,1024/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);var u=c.toDataURL('image/jpeg',.6),c2=document.createElement('canvas'),k2=96/Math.max(c.width,c.height);c2.width=c.width*k2;c2.height=c.height*k2;c2.getContext('2d').drawImage(c,0,0,c2.width,c2.height);var th=c2.toDataURL('image/jpeg',.5);c.toBlob(function(b){cb(b,u,th)},'image/jpeg',.85)};im.onerror=function(){toast('ছবিটা পড়া যায়নি')};im.src=r.result};r.readAsDataURL(f)}
+var ERR={no_key:'আগে সেটিংসে গিয়ে এআই কী (API key) দিন।',network:'ইন্টারনেট সংযোগ দেখুন।',error:'এআই সেবায় সমস্যা হয়েছে, একটু পরে চেষ্টা করুন।',not_granted:'Claude ব্যবহারের অনুমতি দেওয়া হয়নি। নিচের সাধারণ সমস্যার তালিকা দেখুন।',rate_limited:'একটু পরে আবার চেষ্টা করুন।',image_rejected:'ছবিটা নেওয়া যায়নি, অন্য ছবি দিন।',images_unavailable:'এখানে ছবি পাঠানো যাচ্ছে না। লক্ষণ লিখে চেষ্টা করুন।',sampling_disabled:'এই অ্যাকাউন্টে এআই চালু নেই।'};
+async function diagnose(){var pl=DX.pn.trim()||DX.plant,sy=DX.sy.map(function(i){return SYS[i]}).concat(SYM.trim()?[SYM.trim()]:[]).join(', ');
+if(!IMG&&!sy){toast('ছবি দিন বা লক্ষণ বেছে নিন');return}
+var sp=null;try{sp=await claude.use('sample')}catch(e){}
+if(!sp){toast('এআই এখানে চালু নেই');return}
+var im=false;try{var l=await sp.limits();im=!!(l&&l.images)}catch(e){}
+DX.busy=true;DX.res=null;render();var st=0;TMR=setInterval(function(){st=Math.min(2,st+1);var p=$('prog');if(p)p.outerHTML=progHtml(st)},3500);
+var vf=$('vf');if(vf)vf.classList.add('scan');CTL=new AbortController();
+var P='তুমি বাংলাদেশের ছাদবাগানের অভিজ্ঞ কৃষি পরামর্শদাতা। '+(IMG&&im?'সঙ্গের ছবি দেখে':'নিচের বর্ণনা দেখে')+' গাছের সমস্যা চিনো। এখন '+MN[new Date().getMonth()]+' মাস। গাছ: '+(pl||'জানা নেই')+'। লক্ষণ: '+(sy||'নেই')+'.\nনিয়ম: ছবি গাছের না হলে বা খুব অস্পষ্ট হলে ok=false দাও ও note-এ বাংলায় কারণ লেখো, বানিয়ে বলো না। নিশ্চিত না হলে confidence কম দাও। সমাধানে আগে ঘরোয়া ও জৈব উপায় (পানি ঠিক করা, আক্রান্ত অংশ ছাঁটা, নিম তেল, সাবান-পানি), রাসায়নিক শুধু শেষ উপায়ে, প্যাকেটের নির্দেশ মেনে।\nশুধু এই JSON দাও, আর কিছু নয়, সব মান বাংলায়:\n{"ok":true,"note":"","plant":"","problem":"","confidence":0 থেকে 100 সংখ্যা,"severity":"low|medium|high","cause":"১-২ বাক্য","steps":["৩-৫টা ছোট ধাপ"],"prevent":["২-৩টা"],"expert":"কখন নার্সারি বা কৃষি কর্মকর্তাকে দেখাবে, এক বাক্য"}';
+try{var r=await sp.json(P,{images:IMG&&im?[IMG]:undefined,signal:CTL.signal,cache:false,modelTier:'default'});
+r.thumb=TH;DX.res=r;if(r.ok!==false){r.ok=true;S.dx=S.dx||[];S.dx.unshift({id:Date.now(),ts:Date.now(),plant:r.plant||pl,problem:r.problem,severity:r.severity,thumb:TH,res:r});S.dx=S.dx.slice(0,8);save()}}
+catch(e){if(e.code!='cancelled')DX.res={ok:false,note:ERR[e.code]||(e.code=='invalid_json'?'উত্তরটা ঠিকমতো সাজানো যায়নি, আবার চেষ্টা করুন।':'এখন উত্তর আনা যায়নি, একটু পরে আবার চেষ্টা করুন।')}}
+clearInterval(TMR);DX.busy=false;render();var x=$('dxres');if(x&&x.scrollIntoView)x.scrollIntoView({behavior:'smooth',block:'start'})}
+document.addEventListener('keydown',function(e){if(e.key=='Enter'&&!e.isComposing&&e.target.id=='pname'){e.preventDefault();addPlant(e.target.value);return}
+if(e.key=='Enter'&&!e.isComposing&&e.target.id=='aq'){e.preventDefault();askQ(e.target.value);return}
+if(e.key=='Enter'&&e.target.classList&&(e.target.classList.contains('pc')||e.target.classList.contains('gc')||e.target.classList.contains('wdc')||e.target.classList.contains('wdi')))e.target.click()});
+document.addEventListener('click',function(e){if(e.target.closest('[data-close]')){closeAdd();return}var wde=e.target.closest('[data-wde]');if(wde){openWx();return}var gc=e.target.closest('.gc');if(gc&&!e.target.closest('button')){GD=gc.dataset.gid;render();window.scrollTo(0,0);return}var pc=e.target.closest('.pc');if(pc&&!e.target.closest('button')){DET=pc.dataset.id;render();window.scrollTo(0,0);return}
+var b=e.target.closest('button');if(!b)return;var d=b.dataset;
+if(b.id=='homeb')goHome();
+else if(d.pint!==undefined){S.pint=+d.pint;save();render()}
+else if(d.og){GD=d.og;S.tab='garden';SET=false;render();window.scrollTo(0,0)}
+else if(d.set||b.id=='setb'){SET=true;render();window.scrollTo(0,0)}
+else if(d.sback){SET=false;render();window.scrollTo(0,0)}
+else if(d.fint!==undefined){S.fint=+d.fint;save();render()}
+else if(d.wx){S.wx={d:dstr(Date.now()),v:S.wx&&S.wx.d==dstr(Date.now())&&S.wx.v==d.wx?'':d.wx};save();render()}
+else if(d.wr)genReport()
+else if(d.rx){var op0=b.getAttribute('aria-expanded')=='true';WOPEN[d.rx]=!op0;NOANIM=true;render();NOANIM=false}
+else if(d.wp){S.wp=d.wp;save();render()}
+else if(d.wri!==undefined){WRI=+d.wri;render()}
+else if(d.dysave){var it8=gitem(GD);if(it8&&(DY.t.trim()||DY.th)){it8.dy=it8.dy||[];it8.dy.push({id:Date.now(),ts:Date.now(),txt:cn(DY.t,500).replace(/\s+/g,' ').length?DY.t.replace(/[<>&"'`]/g,'').trim().slice(0,500):'',th:DY.th});DY={id:it8.id,t:'',th:null};save();render();toast('ডায়েরিতে লেখা হয়েছে')}else toast('কিছু লিখুন বা ছবি দিন')}
+else if(d.dydel){var it9=gitem(GD);if(it9){it9.dy=(it9.dy||[]).filter(function(e){return e.id!=d.dydel});save();render()}}
+else if(d.gi){GD=d.gi;render();window.scrollTo(0,0)}
+else if(d.wc){WSEL=d.wc;var cs=document.querySelectorAll('[data-wc]');cs.forEach(function(x){var on=x.dataset.wc==WSEL;x.className='chip'+(on?' on':'');x.setAttribute('aria-pressed',on)})}
+else if(b.id=='wsave'){var tv=parseFloat($('wt').value),hv=parseFloat($('wh').value),rv=parseFloat($('wr').value);if(!(tv>-10&&tv<60)){toast('তাপমাত্রা সংখ্যায় লিখুন');return}
+S.wd={t:Math.round(tv),h:hv>=0&&hv<=100?Math.round(hv):null,r:rv>=0&&rv<=100?Math.round(rv):null,c:WSEL,loc:cn($('wl').value,30)||'ঢাকা',d:dstr(Date.now())};S.wx={d:dstr(Date.now()),v:wdKey(S.wd)};save();closeAdd();render();toast('আবহাওয়া আপডেট হয়েছে')}
+else if(d.nton){enableNotifs()}
+else if(d.akey){var kv=$('akey').value.trim();try{if(kv){localStorage.setItem('rs-key',kv);toast('কী সেভ হয়েছে')}else toast('কী লিখুন')}catch(e){}}
+else if(d.akdel){try{localStorage.removeItem('rs-key')}catch(e){}render();toast('কী মুছে ফেলা হয়েছে')}
+else if(d.wxlive){liveWx(true)}
+else if(d.gback){GD=null;SC.err='';render();window.scrollTo(0,0)}
+else if(d.rec){var it7=gitem(GD),sg2=it7&&it7.sc&&it7.sc[d.rec=='f'?'fert':'chem'];if(sg2){it7.log=it7.log||[];it7.log.push({id:Date.now(),ts:Date.now(),t:d.rec,name:sg2.name});save();render();toast('রেকর্ড হয়েছে')}}
+else if(d.godet){DET=d.godet;GD=null;S.tab='cal';render();window.scrollTo(0,0)}
+else if(d.gs){var it=gitem(GD);if(it){it.st=+d.gs;save();render()}}
+else if(d.ghs){var it2=gitem(GD),v=parseFloat($('gh').value);if(it2&&v>0){it2.hs=it2.hs||[];it2.hs.push({ts:Date.now(),h:v});save();render();toast('মাপ লেখা হয়েছে')}else toast('উচ্চতা সংখ্যায় লিখুন')}
+else if(d.fr){var it3=gitem(GD);if(it3){it3.fr=Math.max(0,(it3.fr||0)+(+d.fr));save();render()}}
+else if(d.ln){GL[d.ln]=GL[d.ln]==d.lv?'':d.lv;render()}
+else if(d.lsave){var ty=d.lsave,it4=gitem(GD),nm=((GL['c'+ty]||'').replace(/[<>&"'`]/g,'').trim())||GL[ty];if(!it4)return;if(!nm){toast('নাম বেছে নিন বা লিখুন');return}
+var dv=GL['d'+ty],ts=dv?new Date(dv+'T12:00:00').getTime():Date.now();if(!(ts>0)||ts>Date.now())ts=Date.now();it4.log=it4.log||[];it4.log.push({id:Date.now(),ts:ts,t:ty,name:nm});GL[ty]='';GL['c'+ty]='';GL['d'+ty]='';save();render();toast('রেকর্ড হয়েছে')}
+else if(d.ldel){var it5=gitem(GD);if(it5){it5.log=(it5.log||[]).filter(function(l){return l.id!=d.ldel});save();render()}}
+else if(b.id=='addp')openAdd()
+else if(b.id=='addgo')addPlant($('pname').value)
+else if(d.ex){$('pname').value=d.ex}
+else if(d.delc)delCustom(d.delc)
+else if(d.back){DET=null;render();window.scrollTo(0,0)}
+else if(d.dxp){DX.plant=PD[d.dxp][1];DM='dx';DET=null;GD=null;S.tab='doc';render();window.scrollTo(0,0)}
+else if(d.t){DET=null;GD=null;SET=false;if(d.t=='cal'&&S.tab!='cal')S.mon=new Date().getMonth();S.tab=d.t;save();render();window.scrollTo(0,0)}
+else if(d.mon){S.mon=+d.mon;save();render()}
+else if(d.add){var p=PD[d.add];S.g.push({id:Date.now(),pid:p[0],name:p[1],int:p[3],last:Date.now()});save();render();toast(p[1]+' বাগানে যোগ হয়েছে')}
+else if(d.wat){S.g.forEach(function(x){if(x.id==d.wat)wnow(x)});save();render();toast('পানি দেওয়া হয়েছে')}
+else if(d.rm){S.g=S.g.filter(function(x){return x.id!=d.rm});GD=null;save();render()}
+else if(b.id=='all'){S.g.forEach(function(x){if(stat(x).l>=0)wnow(x)});save();render();toast('সবগুলোতে পানি দেওয়া হয়েছে')}
+else if(d.sy){var i=+d.sy,k=DX.sy.indexOf(i);if(k>-1)DX.sy.splice(k,1);else DX.sy.push(i);render()}
+else if(d.pl){DX.plant=DX.plant==d.pl?'':d.pl;render()}
+else if(d.h){var h=(S.dx||[]).filter(function(x){return x.id==d.h})[0];if(h){DX.res=h.res;render();window.scrollTo(0,0)}}
+else if(b.id=='newdx'){DX.res=null;IMG=null;PRE=null;TH=null;SYM='';DX.sy=[];DX.plant='';DX.pn='';render();window.scrollTo(0,0)}
+else if(d.dm){DM=d.dm;render();window.scrollTo(0,0)}
+else if(d.arm){AIMG=null;render()}
+else if(d.q)askQ(d.q)
+else if(b.id=='asend'){var q=$('aq');askQ(q&&q.value)}
+else if(b.id=='astop'&&CTL)CTL.abort()
+else if(b.id=='aclr'){CH=[];render()}
+else if(b.id=='dx')diagnose();
+else if(b.id=='stop'&&CTL)CTL.abort()});
+document.addEventListener('input',function(e){if(e.target.id=='rt'){S.rt=e.target.value||'07:00';save();var al=document.querySelectorAll('a.btn[href^="https://calendar"]')}if(e.target.id=='dytx')DY.t=e.target.value;if(e.target.id=='aq')AQV=e.target.value;if(e.target.id=='sym')SYM=e.target.value;if(e.target.id=='ln_f')GL.cf=e.target.value;if(e.target.id=='ln_c')GL.cc=e.target.value;if(e.target.id=='ld_f')GL.df=e.target.value;if(e.target.id=='ld_c')GL.dc=e.target.value;if(e.target.id=='pn')DX.pn=e.target.value});
+document.addEventListener('change',function(e){if(e.target.id=='afile'&&e.target.files[0]){shrink(e.target.files[0],function(b,u,th){med(u,function(m){AIMG={b:b,th:m||th};render()})});return}
+if(e.target.id=='dyfile'&&e.target.files[0]){shrink(e.target.files[0],function(b,u,th){med(u,function(m){DY.th=m||th;render()})});return}
+if(e.target.id=='rt'){S.rt=e.target.value||'07:00';save();render();return}
+if(e.target.id=='gfile'&&e.target.files[0]){shrink(e.target.files[0],function(b,u,th){runScan(b,th)});return}
+if(e.target.id=='gpd'&&e.target.value){var it6=gitem(GD);if(it6){it6.pd=new Date(e.target.value+'T12:00:00').getTime();save();render()}}
+if(e.target.classList.contains('cks'))e.target.parentNode.classList.toggle('done',e.target.checked);if(e.target.id=='file'&&e.target.files[0])shrink(e.target.files[0],function(b,u,th){IMG=b;PRE=u;TH=th;render()})});
+$('homet').onclick=goHome;
+var TX=0,TY=0,TS=false;
+document.addEventListener('touchstart',function(e){var t=e.touches[0];TX=t.clientX;TY=t.clientY;TS=S.tab=='cal'&&!DET&&!SET&&!e.target.closest('.mg')},{passive:true});
+document.addEventListener('touchend',function(e){if(!TS)return;var t=e.changedTouches[0],dx=t.clientX-TX,dy=t.clientY-TY;if(Math.abs(dx)>60&&Math.abs(dy)<45){var m=S.mon+(dx<0?1:-1);if(m>=0&&m<12){S.mon=m;save();render()}}},{passive:true});
+var tb=$('theme'),root=document.documentElement;
+function theme(t){root.setAttribute('data-theme',t);tb.innerHTML=ic(t=='dark'?'sun':'moon');tb.setAttribute('aria-label',t=='dark'?'লাইট মোডে যান':'ডার্ক মোডে যান')}
+tb.onclick=function(){theme(root.getAttribute('data-theme')=='dark'?'light':'dark')};
+theme('light');render();try{var lg0=document.querySelector('header .lg');if(lg0)$('splash').innerHTML=lg0.outerHTML+'<b>RoofSprout</b><span>ছাদবাগান সহকারী</span>'}catch(e){}
+
+/* ===== Android (Capacitor) অংশ ===== */
+var ISN=!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform());
+function nativeSec(){var tm=S.rt||'07:00',key='';try{key=localStorage.getItem('rs-key')||''}catch(e){}
+return '<section class="card"><h2>ফোনের নোটিফিকেশন</h2><div class="m">অ্যাপ বন্ধ থাকলেও সময়মতো মনে করাবে: রোজ বাগান দেখা আর প্রতিটা গাছের পানির সময়।</div><label class="m" for="rt" style="display:block;margin:10px 0 4px">রোজ কোন সময়ে</label><input class="tx" id="rt" type="time" value="'+tm+'" style="max-width:160px"><button class="btn p wide" data-nton="1" type="button" style="margin-top:12px">'+ic('drop',18)+(S.nton?'নোটিফিকেশন আবার সাজান':'নোটিফিকেশন চালু করুন')+'</button>'+(S.nton?'<div class="m" style="margin-top:8px">'+ic('ok',16)+' চালু আছে</div>':'')+'</section>'
++'<section class="card"><h2>এআই কী (API key)</h2><div class="m">ছবি দেখে রোগ চেনা, সাজেশন, রিপোর্ট ও নতুন গাছ যোগের জন্য আপনার নিজের Anthropic API কী লাগবে। কী শুধু এই ফোনে থাকে। ব্যবহারের খরচ আপনার অ্যাকাউন্ট থেকে যায়।</div><input class="tx" id="akey" type="password" placeholder="sk-ant-..." value="'+esc(key)+'" autocomplete="off" style="margin-top:10px"><div class="row" style="gap:8px;margin-top:10px"><button class="btn p g" data-akey="1" type="button">সেভ করুন</button><button class="btn" data-akdel="1" type="button">মুছুন</button></div></section>'
++'<section class="card"><h2>লাইভ আবহাওয়া</h2><div class="m">ঢাকার আজকের আবহাওয়া ইন্টারনেট থেকে আনে (Open-Meteo)। অ্যাপ খুললে নিজে আপডেট হয়।</div><button class="btn wide" data-wxlive="1" type="button" style="margin-top:10px">এখনই আপডেট করুন</button></section>'}
+function LN(){return window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.LocalNotifications}
+async function enableNotifs(){var ln=LN();if(!ln){toast('এটা শুধু অ্যাপে চলে');return}
+try{var p=await ln.requestPermissions();if(p.display=='granted'){S.nton=1;save();await schedN();render();toast('নোটিফিকেশন চালু হয়েছে')}else toast('অনুমতি দেওয়া হয়নি')}catch(e){toast('নোটিফিকেশন চালু করা যায়নি')}}
+async function schedN(){var ln=LN();if(!ln||!S.nton)return;
+try{var pend=await ln.getPending();if(pend.notifications&&pend.notifications.length)await ln.cancel({notifications:pend.notifications})}catch(e){}
+var hm=(S.rt||'07:00').split(':'),H=+hm[0]||7,M=+hm[1]||0,L=[],id=1,now=new Date();
+L.push({id:id++,title:'RoofSprout',body:'বাগানে পানি, পাতা আর পোকা দেখুন। আজ কোন গাছে কী লাগবে অ্যাপে দেখুন।',schedule:{on:{hour:H,minute:M},allowWhileIdle:true}});
+S.g.slice(0,40).forEach(function(g){var at=new Date(day0(g.last)+g.int*D);at.setHours(H,M,0,0);if(at<=now){at=new Date(day0(Date.now())+D);at.setHours(H,M,0,0)}L.push({id:id++,title:g.name+'-এ পানি দিন',body:'পানি দেওয়ার সময় হয়েছে।',schedule:{at:at,allowWhileIdle:true}})});
+var rn=remN();if(rn>0){var t=new Date(day0(Date.now())+D);t.setHours(H,M,0,0);L.push({id:id++,title:'RoofSprout রিমাইন্ডার',body:bn(rn)+'টা গাছের ছবি তোলা বা সার দেওয়ার সময় হয়েছে।',schedule:{at:t,allowWhileIdle:true}})}
+try{await ln.schedule({notifications:L})}catch(e){}}
+var _save=save,_st=null;save=function(){_save();if(ISN&&S.nton){clearTimeout(_st);_st=setTimeout(function(){schedN()},1500)}};
+async function liveWx(show){try{var r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=23.8103&longitude=90.4125&current=temperature_2m,relative_humidity_2m,weather_code&daily=precipitation_probability_max&timezone=auto&forecast_days=1');if(!r.ok)throw 0;var j=await r.json(),c=j.current,cd=c.weather_code,cond=cd<=1?'sun':cd<=3?'cloud':(cd==45||cd==48)?'fog':'rain';
+S.wd={t:Math.round(c.temperature_2m),h:Math.round(c.relative_humidity_2m),r:(j.daily&&j.daily.precipitation_probability_max)?Math.round(j.daily.precipitation_probability_max[0]):null,c:cond,loc:'ঢাকা',d:dstr(Date.now()),live:1};S.wx={d:dstr(Date.now()),v:wdKey(S.wd)};S.wdts=Date.now();save();render();if(show)toast('আবহাওয়া আপডেট হয়েছে')}catch(e){if(show)toast('আবহাওয়া আনা যায়নি, ইন্টারনেট দেখুন')}}
+if(ISN){liveWx(false);document.addEventListener('visibilitychange',function(){if(document.visibilityState=='visible'&&(!S.wdts||Date.now()-S.wdts>30*60000))liveWx(false)})}
+</script>
+</body>
+</html>

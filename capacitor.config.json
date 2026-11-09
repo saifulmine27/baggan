@@ -1,0 +1,6 @@
+{
+  "appId": "com.roofsprout.app",
+  "appName": "RoofSprout",
+  "webDir": "www",
+  "server": { "androidScheme": "https" }
+}
